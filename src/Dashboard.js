@@ -7,25 +7,31 @@ class Dashboard extends Component {
     super(props)
     this.state = {
       data: [
-        {description: "Test description 1", zoom: 9, pitch: 60, bearing: 0, center: [-87.03369140625,46.13417004624326]},
-        {description: "Second Description", zoom: 8.5, pitch: 40, bearing: 10, center: [-83.49609375,41.73852846935917]},
-        {description: "Description 3", zoom: 7, pitch: 50, bearing: -10, center: [-85.27587890625,46.042735653846506]},
-        {description: "4th Description", zoom: 9, pitch: 60, bearing: 20, center: [-83.84765625,46.01222384063236]},
+        {description: "Test description 0", zoom: 9, pitch: 60, bearing: 0, center: [-87.03369140625,46.13417004624326]},
+        {description: "1 Description", zoom: 8, pitch: 40, bearing: 10, center: [-83.49609375,41.73852846935917]},
+        {description: "Description 2", zoom: 7, pitch: 50, bearing: -10, center: [-85.27587890625,46.042735653846506]},
+        {description: "3rd Description", zoom: 9, pitch: 60, bearing: 20, center: [-83.84765625,46.01222384063236]},
       ],
       currentSlide: 0,
       currentData: {}
     }
+    this.nextSlide = this.nextSlide.bind(this)
+    this.flyMap = this.flyMap.bind(this)
   }
+
 
 
 
   componentDidMount(){
 
-    this.setState({
-      currentData: this.state.data[0]
-    })
+    this.setState({currentData: this.state.data[0]}, () => {
+      console.log("currentData description: " + this.state.currentData.description)
 
-    this.flyMap()
+      this.flyMap()
+    });
+
+
+
 
 
 
@@ -33,24 +39,33 @@ class Dashboard extends Component {
 
   nextSlide(e){
 
-    this.setState({
-      currentSlide: this.state.currentSlide + 1,
-    })
+    var slideNum = this.state.currentSlide + 1
 
-    this.setState({
-      currentData: this.state.data[this.currentSlide]
-    })
-    this.flyMap()
-    console.log("next slide")
+    if(slideNum < this.state.data.length){
+      this.setState({
+        currentSlide: slideNum,
+        currentData: this.state.data[slideNum]
+      }, () => {
+        console.log("next slide")
+
+        this.flyMap()
+      });
+    }else{
+      console.log("out of slides!")
+    }
+
+
+
   }
 
   flyMap(){
     console.log("fly map")
+    var self = this
     this.props.myMap.flyTo({
-      // zoom: this.state.currentData.zoom,
-      // pitch: this.state.currentData.pitch,
-      // bearing: this.state.currentData.bearing,
-      center: this.state.currentData.center
+       zoom: self.state.currentData.zoom,
+       pitch: self.state.currentData.pitch,
+       bearing: self.state.currentData.bearing,
+      center: self.state.currentData.center
     });
   }
 

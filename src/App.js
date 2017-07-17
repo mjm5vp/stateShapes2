@@ -376,9 +376,9 @@ class App extends Component {
 
         map.flyTo({
           // center: e.features[0].geometry.coordinates,
-          center: [-88.94072662756412,46.09605579375477],
-          zoom: 10,
-          pitch: 50
+          center: [-87.94072662756412,47.09605579375477],
+          zoom: 6,
+          pitch: 0
         });
 
         map.addLayer({
