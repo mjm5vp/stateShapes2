@@ -13,10 +13,36 @@
   top: 10%;
   padding: 10px;
   background-color: red;
+  display: flex;
+  flex-direction: column;
+}
+
+.descriptionField{
+  flex-grow: 4;
+}
+
+.buttonContainer{
+  display: flex;
+  flex-direction: row;
+
+}
+
+.slideButton{
+  margin: 10px;
+  border: 2px solid black;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.slideButton:hover{
+  cursor: pointer;
+  background-color: white;
+}
+
+.prevSlideButton{
+  margin: 10px;
 }
 
 .nextSlideButton{
-  position: absolute;
-  bottom: 0;
-  right: 0;
+margin: 10px;
 }

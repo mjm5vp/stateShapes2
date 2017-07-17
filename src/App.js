@@ -11,6 +11,7 @@ import Search from "./Search"
 import About from "./About"
 import Stock from "./Stock"
 import mapboxgl from 'mapbox-gl';
+import Michigan from "./michiganData.js"
 import $ from "jquery";
 import "./App.css"
 
@@ -505,7 +506,7 @@ class App extends Component {
 
 
          <div className="main">
-           <Route path="/michigan" render={() => <Dashboard myMap={this.state.thisMap} />} />
+           <Route path="/michigan" render={() => <Dashboard myMap={this.state.thisMap} data={Michigan.data}/>} />
            <Route path="/about" component={About} />
            <Route path="/stocks/:symbol" component={Stock} />
         </div>

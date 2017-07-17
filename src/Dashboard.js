@@ -6,12 +6,7 @@ class Dashboard extends Component {
   constructor(props){
     super(props)
     this.state = {
-      data: [
-        {description: "Test description 0", zoom: 9, pitch: 60, bearing: 0, center: [-87.03369140625,46.13417004624326]},
-        {description: "1 Description", zoom: 8, pitch: 40, bearing: 10, center: [-83.49609375,41.73852846935917]},
-        {description: "Description 2", zoom: 7, pitch: 50, bearing: -10, center: [-85.27587890625,46.042735653846506]},
-        {description: "3rd Description", zoom: 9, pitch: 60, bearing: 20, center: [-83.84765625,46.01222384063236]},
-      ],
+      data: this.props.data,
       currentSlide: 0,
       currentData: {}
     }
@@ -24,24 +19,19 @@ class Dashboard extends Component {
 
   componentDidMount(){
 
-    this.setState({currentData: this.state.data[0]}, () => {
+    this.setState({
+      currentData: this.state.data[0]
+    }, () => {
       console.log("currentData description: " + this.state.currentData.description)
-
       this.flyMap()
     });
-
-
-
-
-
-
   }
 
-  nextSlide(e){
+  nextSlide(e, plusOrMinus){
 
-    var slideNum = this.state.currentSlide + 1
+    var slideNum = this.state.currentSlide + plusOrMinus
 
-    if(slideNum < this.state.data.length){
+    if(slideNum < this.state.data.length && slideNum >= 0){
       this.setState({
         currentSlide: slideNum,
         currentData: this.state.data[slideNum]
@@ -84,8 +74,12 @@ class Dashboard extends Component {
     // })
     return (
       <div className="testDash">
-        <p>{this.state.currentData.description}</p>
-        <button className="nextSlideButton" onClick={this.nextSlide}>Next Slide</button>
+        <p className="descriptionField">{this.state.currentData.description}</p>
+        <div className="buttonContainer">
+          <div className="slideButton" onClick={(e) => this.nextSlide(e,-1)}>Previous Slide</div>
+          <div className="slideButton" onClick={(e) => this.nextSlide(e,1)}>Next Slide</div>
+        </div>
+
       </div>
     );
   }
