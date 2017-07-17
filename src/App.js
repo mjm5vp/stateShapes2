@@ -368,16 +368,22 @@ class App extends Component {
     });
 
     map.on('click', 'all-points', function (e) {
-        map.flyTo({center: e.features[0].geometry.coordinates});
+        map.flyTo({
+          // center: e.features[0].geometry.coordinates,
+          center: [-71.14789974636884,41.64758738867177],
+          zoom: 10,
+          pitch: 50
+        });
+        map.pitch
         console.log("click")
         // new mapboxgl.Popup()
         // .setLngLat(e.features[0].geometry.coordinates)
         // .setHTML(e.features[0].properties.description)
         // .addTo(map);
-        var newDiv = $("<div></div>")
-        newDiv.append($("<p>hello</p>"))
-        newDiv.addClass("newDiv")
-        $(".info").append(newDiv)
+        // var newDiv = $("<div></div>")
+        // newDiv.append($("<p>hello</p>"))
+        // newDiv.addClass("newDiv")
+        // $(".info").append(newDiv)
     });
 
 
@@ -427,6 +433,10 @@ closeNav() {
 <Router>
   <div id='full'>
     <div id='map'>
+    </div>
+
+    <div class="info">
+
     </div>
 
 
