@@ -11,6 +11,7 @@ import Search from "./Search"
 import About from "./About"
 import Stock from "./Stock"
 import mapboxgl from 'mapbox-gl';
+import $ from "jquery";
 import "./App.css"
 
 class App extends Component {
@@ -56,15 +57,49 @@ var map = new mapboxgl.Map({
       hasTracked: true
     })
   }
+
+  openNav() {
+  $(".map-overlay").css("width", "250px")
+}
+
+closeNav() {
+  $(".map-overlay").css("width", "0px")
+}
+
   render() {
 
 
 
 
     return (
+<Router>
+  <div id='full'>
+    <div id='map'>
+    </div>
 
-        <div id='map'>
+
+
+    <span id="openNav"  onClick={this.openNav}>&#9776;</span>
+
+    <div className='map-overlay top'>
+        <a href="javascript:void(0)" className="closebtn" onClick={this.closeNav}>&times;</a>
+        <div className='map-overlay-inner'>
+            <fieldset>
+                <label>Select layer</label>
+                <select id='layer' name='layer'>
+                    <option value='water'>Water</option>
+                    <option value='building'>Buildings</option>
+                </select>
+            </fieldset>
+            <fieldset>
+                <label>Choose a color</label>
+                <div id='swatches'></div>
+            </fieldset>
         </div>
+      </div>
+    </div>
+
+</Router>
 
 
       // <Router>
