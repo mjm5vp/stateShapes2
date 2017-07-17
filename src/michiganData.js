@@ -1,4 +1,5 @@
 var upperPen = {
+
   "type": "geojson",
   "data": {
 
@@ -50,12 +51,15 @@ var upperPen = {
       "type": "Polygon"
     },
     "type": "Feature",
-    "properties": {}
+    "properties": {
+      "id": "upperPen",
+    }
   }
 
 }
 
 var toledoPoint = {
+
   "type": "geojson",
   "data": {
 
@@ -72,7 +76,9 @@ var toledoPoint = {
       "type": "Polygon"
     },
     "type": "Feature",
-    "properties": {}
+    "properties": {
+      "id": "toledoPoint",
+    }
   }
 
 }
@@ -112,7 +118,7 @@ var data = [
     },
     showLayer: {
       show: true,
-      layer: toledoPoint
+      layer: "toledoPoint"
     },
     hideLayer: {
       hide: false,
@@ -128,15 +134,15 @@ var data = [
     toggleLayer: {
       toggle: true,
       toggleState: "on",
-      layer: upperPen
+      layer: "upperPen"
     },
     showLayer: {
       show: true,
-      layer: upperPen
+      layer: "upperPen"
     },
     hideLayer: {
       hide: true,
-      layer: toledoPoint
+      layer: "toledoPoint"
     }
   },
   {
@@ -156,11 +162,11 @@ var data = [
     },
     hideLayer: {
       hide: true,
-      layer: upperPen
+      layer: "upperPen"
     }
   },
 ]
 
 // console.log(data[0].addaLayer.layer)
 
-module.exports = {data: data, layers: [upperPen, toledoPoint]}
+module.exports = {name: "michigan", data: data, layers: [upperPen, toledoPoint]}

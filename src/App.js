@@ -70,11 +70,12 @@ class App extends Component {
 
     map.on('load', function () {
 
-      var michLayers = []
+      var michLayers = {}
 
       Michigan.layers.forEach((layer, index)=>{
+        console.log(layer.data.properties.id)
         var newLayer = map.addLayer({
-              "id": `layer${index}`,
+              "id": layer.data.properties.id,
               "type": "fill",
               "description": "Hello World",
               "source": layer,
@@ -84,12 +85,14 @@ class App extends Component {
               }
               // "filter": ["==", "$type", "Polygon"]
           });
-          map.setLayoutProperty(`layer${index}`, 'visibility', 'none');
-          michLayers.push(`layer${index}`)
+          map.setLayoutProperty(layer.data.properties.id, 'visibility', 'none');
+          // michLayers[layer.data.properties.id
       })
 
+      var name = Michigan.name
+
       self.setState({
-        layers: michLayers
+        layers: {michigan: michLayers}
       })
 
 
@@ -347,7 +350,7 @@ class App extends Component {
 
 
          <div className="main">
-           <Route path="/michigan" render={() => <Dashboard myMap={this.state.thisMap} data={Michigan.data} layers={this.state.layers}/>} />
+           <Route path="/michigan" render={() => <Dashboard myMap={this.state.thisMap} data={Michigan.data} layers={this.state.layers.michigan}/>} />
            <Route path="/about" component={About} />
            <Route path="/stocks/:symbol" component={Stock} />
         </div>

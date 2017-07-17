@@ -71,11 +71,11 @@ class Dashboard extends Component {
   }
 
   showLayer(){
-    this.props.myMap.setLayoutProperty(this.state.layers[0], 'visibility', 'visible');
+    this.props.myMap.setLayoutProperty(this.state.currentData.showLayer.layer, 'visibility', 'visible');
   }
 
   hideLayer(){
-    this.props.myMap.setLayoutProperty(this.state.layers[0], 'visibility', 'none');
+    this.props.myMap.setLayoutProperty(this.state.currentData.hideLayer.layer, 'visibility', 'none');
   }
 
 
