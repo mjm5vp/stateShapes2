@@ -30,6 +30,7 @@ class App extends Component {
         "properties": {}
       }],
       thisMap: null,
+      redirect: false,
       hasTracked: false
     }
     this.handleTrackedState = this.handleTrackedState.bind(this)
@@ -59,6 +60,18 @@ class App extends Component {
     this.setState({
       thisMap: map
     })
+
+//     static contextTypes = {
+//   router: PropTypes.shape({
+//     history: PropTypes.shape({
+//       push: PropTypes.func.isRequired,
+//       replace: PropTypes.func.isRequired
+//     }).isRequired,
+//     staticContext: PropTypes.object
+//   }).isRequired
+// };
+
+    var self = this
 
     map.on('load', function () {
 
@@ -341,18 +354,7 @@ class App extends Component {
 
 
 
-    map.addLayer({
-        "id": "upperPen",
-        "type": "fill",
-        "description": "Hello World",
-        "source": "upperPen",
-        // 'minzoom': 7,
-        "paint": {
-            "fill-color": "#888888",
-            "fill-opacity": 0.4
-        },
-        "filter": ["==", "$type", "Polygon"]
-    });
+
 
     map.addLayer({
         "id": "all-points",
@@ -367,15 +369,44 @@ class App extends Component {
         "filter": ["==", "$type", "Point"],
     });
 
+
+
+
     map.on('click', 'all-points', function (e) {
+
         map.flyTo({
           // center: e.features[0].geometry.coordinates,
-          center: [-71.14789974636884,41.64758738867177],
+          center: [-88.94072662756412,46.09605579375477],
           zoom: 10,
           pitch: 50
         });
-        map.pitch
-        console.log("click")
+
+        map.addLayer({
+            "id": "upperPen",
+            "type": "fill",
+            "description": "Hello World",
+            "source": "upperPen",
+            // 'minzoom': 7,
+            "paint": {
+                "fill-color": "#888888",
+                "fill-opacity": 0.4
+            },
+            "filter": ["==", "$type", "Polygon"]
+        });
+
+        console.log("redirect: " + self.state.redirect)
+
+        self.setState({
+          redirect: true
+        })
+
+        $(".info").css("display", "unset")
+
+        console.log("redirect: " + self.state.redirect)
+
+
+
+
         // new mapboxgl.Popup()
         // .setLngLat(e.features[0].geometry.coordinates)
         // .setHTML(e.features[0].properties.description)
@@ -414,17 +445,28 @@ class App extends Component {
         },
         "filter": ["==", "$type", "Polygon"]
     });
+
   }
 
   openNav() {
   $(".map-overlay").css("width", "250px")
-}
+  }
 
-closeNav() {
-  $(".map-overlay").css("width", "0px")
-}
+  closeNav() {
+    $(".map-overlay").css("width", "0px")
+  }
+
+  closeButton() {
+    $(".info").css("display", "none")
+  }
+
 
   render() {
+
+    // if (this.state.redirect) {
+    //   console.log("inside render")
+    //   return <Redirect to="/michigan" />;
+    // }
 
 
 
@@ -435,11 +477,12 @@ closeNav() {
     <div id='map'>
     </div>
 
-    <div class="info">
-
-    </div>
 
 
+
+    <Link to="/michigan">
+      <div className="info" onClick={this.closeButton}>Go to Component</div>
+    </Link>
 
     <span id="openNav"  onClick={this.openNav}>&#9776;</span>
 
@@ -459,7 +502,15 @@ closeNav() {
             </fieldset>
         </div>
       </div>
-    </div>
+
+
+         <div className="main">
+           <Route path="/michigan" render={() => <Dashboard myMap={this.state.thisMap} />} />
+           <Route path="/about" component={About} />
+           <Route path="/stocks/:symbol" component={Stock} />
+        </div>
+
+        </div>
 
 </Router>
 
