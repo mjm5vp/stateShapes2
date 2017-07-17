@@ -7,6 +7,7 @@ class Dashboard extends Component {
     super(props)
     this.state = {
       data: this.props.data,
+      layers: this.props.layers,
       currentSlide: 0,
       currentData: {}
     }
@@ -38,13 +39,23 @@ class Dashboard extends Component {
       }, () => {
         console.log("next slide")
 
+        if(this.state.currentData.hideLayer.hide){
+          console.log("hideLayer")
+          this.hideLayer()
+        }
+
+        if(this.state.currentData.showLayer.show){
+          console.log("showLayer")
+          this.showLayer()
+        }
+
         this.flyMap()
+
+
       });
     }else{
       console.log("out of slides!")
     }
-
-
 
   }
 
@@ -58,6 +69,16 @@ class Dashboard extends Component {
       center: self.state.currentData.center
     });
   }
+
+  showLayer(){
+    this.props.myMap.setLayoutProperty(this.state.layers[0], 'visibility', 'visible');
+  }
+
+  hideLayer(){
+    this.props.myMap.setLayoutProperty(this.state.layers[0], 'visibility', 'none');
+  }
+
+
 
 
   render() {
