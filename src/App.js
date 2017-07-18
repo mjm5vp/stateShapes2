@@ -11,7 +11,8 @@ import Search from "./Search"
 import About from "./About"
 import Stock from "./Stock"
 import mapboxgl from 'mapbox-gl';
-import Michigan from "./michiganData.js"
+import michigan from "./michiganData.js"
+import maine from "./maineData.js"
 import $ from "jquery";
 import "./App.css"
 
@@ -23,11 +24,19 @@ class App extends Component {
       thisMap: null,
       redirect: false,
       layers:{},
-      visLayers: Michigan.visibleLayers
+      visLayers: michigan.visibleLayers,
+      allData: {
+        michigan: michigan.data,
+        maine: maine.data
+      },
+      sendData: {}
     }
     // this.handleTrackedState = this.handleTrackedState.bind(this)
   }
   componentDidMount(){
+
+    var allFiles = [michigan, maine]
+
     console.log(this.state.pathName)
     var self = this
     mapboxgl.accessToken = 'pk.eyJ1IjoibWFya21vZWxsZXJ1dmEiLCJhIjoiY2o0dXFsa2F6MG44eTJ4cGwxZ2hrOHVkbCJ9.oXW5yLvO_PXRxDBCwA5DRQ';
@@ -52,46 +61,51 @@ class App extends Component {
     map.on('load', function () {
 
       var michLayers = []
-
-      Michigan.layers.forEach((layer, index)=>{
-        console.log(layer.data.properties.id)
-        var newLayer = map.addLayer({
-              "id": layer.data.properties.id,
-              "type": "fill",
-              "description": "Hello World",
-              "source": layer,
-              "paint": {
-                  "fill-color": "#888888",
-                  "fill-opacity": 0.4
-              },
-              "filter": ["==", "$type", "Polygon"]
-          });
-          map.setLayoutProperty(layer.data.properties.id, 'visibility', 'none');
-          michLayers.push(layer.data.properties.id)
+      allFiles.forEach((file, index) => {
+        file.layers.forEach((layer, index)=>{
+          console.log(layer.data.properties.id)
+          var newLayer = map.addLayer({
+                "id": layer.data.properties.id,
+                "type": "fill",
+                "description": "Hello World",
+                "source": layer,
+                "paint": {
+                    "fill-color": "#888888",
+                    "fill-opacity": 0.4
+                },
+                "filter": ["==", "$type", "Polygon"]
+            });
+            map.setLayoutProperty(layer.data.properties.id, 'visibility', 'none');
+            michLayers.push(layer.data.properties.id)
+        })
       })
+
 
       var allVisLayers = []
 
-      Michigan.visibleLayers.forEach((visLayer, index)=>{
-        console.log(visLayer.data.properties.id)
-        var newLayer = map.addLayer({
-              "id": visLayer.data.properties.id,
-              "type": "circle",
-              "source": visLayer,
-              "paint": {
-                  "circle-radius": 6,
-                  "circle-color": "#B42222"
-              },
-              "filter": ["==", "$type", "Point"],
-          });
-          // map.setLayoutProperty(layer.data.properties.id, 'visibility', 'none');
-          allVisLayers.push({name: visLayer.data.properties.name, id: visLayer.data.properties.id})
+      allFiles.forEach((file, index) =>{
+        file.visibleLayers.forEach((visLayer, index)=>{
+          console.log(visLayer.data.properties.id)
+          var newLayer = map.addLayer({
+                "id": visLayer.data.properties.id,
+                "type": "circle",
+                "source": visLayer,
+                "paint": {
+                    "circle-radius": 6,
+                    "circle-color": "#B42222"
+                },
+                "filter": ["==", "$type", "Point"],
+            });
+            // map.setLayoutProperty(layer.data.properties.id, 'visibility', 'none');
+            allVisLayers.push({name: visLayer.data.properties.name, id: visLayer.data.properties.id})
+        })
       })
 
 
 
 
-      var name = Michigan.name
+
+      var name = michigan.name
 
       self.setState({
         layers: {michigan: michLayers}
@@ -112,12 +126,20 @@ class App extends Component {
               pitch: 0
             });
 
+            var stateName = self[layer.name]
+            var a = allFiles.indexOf(stateName);
+            console.log("a: " + a)
+
             console.log("redirect: " + self.state.redirect)
-            console.dir("e: " + e.source)
+            // console.dir("e: " + eval(stateName).data)
+
 
             var newPathName = `/events/${layer.name}`
+            var newSendData = self.state.allData[layer.name]
+
 
             self.setState({
+              sendData: newSendData,
               pathName: newPathName,
               redirect: true
             })
@@ -210,7 +232,7 @@ class App extends Component {
 
          <div className="main">
            {/* render={() => <Dashboard */}
-           <Route path="/events/:name" render={() => <Dashboard myMap={this.state.thisMap} data={Michigan.data} layers={this.state.layers.michigan}/>} />
+           <Route path="/events/:name" render={() => <Dashboard myMap={this.state.thisMap} data={this.state.sendData} layers={this.state.layers.michigan}/>} />
            <Route path="/about" component={About} />
            <Route path="/stocks/:symbol" component={Stock} />
         </div>
