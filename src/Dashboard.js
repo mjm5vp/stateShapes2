@@ -34,7 +34,7 @@ class Dashboard extends Component {
 
     console.log("name: " + this.state.name)
 
-    let url = "http://localhost:3001/users"
+    let url = "http://localhost:3001/" + this.state.name + "Slides"
     $.ajax({
       url,
       method: "GET",
@@ -131,11 +131,17 @@ class Dashboard extends Component {
   }
 
   showLayer(){
-    this.props.myMap.setLayoutProperty(this.state.currentData.showLayer.layer, 'visibility', 'visible');
+    var myLayers = this.state.currentData.showLayer.layers
+    myLayers.forEach((layer, index) => {
+      this.props.myMap.setLayoutProperty(layer, 'visibility', 'visible');
+    })
   }
 
   hideLayer(){
-    this.props.myMap.setLayoutProperty(this.state.currentData.hideLayer.layer, 'visibility', 'none');
+    var myLayers = this.state.currentData.hideLayer.layers
+    myLayers.forEach((layer, index) => {
+      this.props.myMap.setLayoutProperty(layer, 'visibility', 'none');
+    })
   }
 
 

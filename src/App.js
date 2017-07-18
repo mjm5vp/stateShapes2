@@ -122,8 +122,8 @@ class App extends Component {
           console.log("inside click")
 
             map.flyTo({
-              // center: e.features[0].geometry.coordinates,
-              center: [-87.94072662756412,47.09605579375477],
+              center: e.features[0].geometry.coordinates,
+              // center: [-87.94072662756412,47.09605579375477],
               zoom: 6,
               pitch: 0
             });
