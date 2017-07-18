@@ -19,24 +19,17 @@ class App extends Component {
   constructor(props){
     super(props)
     this.state = {
-      points: [{
-        "geometry": {
-          "coordinates": [
-            -87.05638741431481,
-            46.203941604232966
-          ],
-          "type": "Point"
-        },
-        "type": "Feature",
-        "properties": {}
-      }],
+      pathName: "/events/michigan",
       thisMap: null,
       redirect: false,
-      layers:{}
+      layers:{},
+      visLayers: Michigan.visibleLayers
     }
-    this.handleTrackedState = this.handleTrackedState.bind(this)
+    // this.handleTrackedState = this.handleTrackedState.bind(this)
   }
   componentDidMount(){
+    console.log(this.state.pathName)
+    var self = this
     mapboxgl.accessToken = 'pk.eyJ1IjoibWFya21vZWxsZXJ1dmEiLCJhIjoiY2o0dXFsa2F6MG44eTJ4cGwxZ2hrOHVkbCJ9.oXW5yLvO_PXRxDBCwA5DRQ';
 
     var bounds = [
@@ -56,21 +49,9 @@ class App extends Component {
       thisMap: map
     })
 
-//     static contextTypes = {
-//   router: PropTypes.shape({
-//     history: PropTypes.shape({
-//       push: PropTypes.func.isRequired,
-//       replace: PropTypes.func.isRequired
-//     }).isRequired,
-//     staticContext: PropTypes.object
-//   }).isRequired
-// };
-
-    var self = this
-
     map.on('load', function () {
 
-      var michLayers = {}
+      var michLayers = []
 
       Michigan.layers.forEach((layer, index)=>{
         console.log(layer.data.properties.id)
@@ -82,12 +63,33 @@ class App extends Component {
               "paint": {
                   "fill-color": "#888888",
                   "fill-opacity": 0.4
-              }
-              // "filter": ["==", "$type", "Polygon"]
+              },
+              "filter": ["==", "$type", "Polygon"]
           });
           map.setLayoutProperty(layer.data.properties.id, 'visibility', 'none');
-          // michLayers[layer.data.properties.id
+          michLayers.push(layer.data.properties.id)
       })
+
+      var allVisLayers = []
+
+      Michigan.visibleLayers.forEach((visLayer, index)=>{
+        console.log(visLayer.data.properties.id)
+        var newLayer = map.addLayer({
+              "id": visLayer.data.properties.id,
+              "type": "circle",
+              "source": visLayer,
+              "paint": {
+                  "circle-radius": 6,
+                  "circle-color": "#B42222"
+              },
+              "filter": ["==", "$type", "Point"],
+          });
+          // map.setLayoutProperty(layer.data.properties.id, 'visibility', 'none');
+          allVisLayers.push({name: visLayer.data.properties.name, id: visLayer.data.properties.id})
+      })
+
+
+
 
       var name = Michigan.name
 
@@ -95,202 +97,38 @@ class App extends Component {
         layers: {michigan: michLayers}
       })
 
+      self.setState({
+        visLayers: allVisLayers
+      })
 
 
+      allVisLayers.forEach((layer, index) => {
+        map.on('click', layer.id, function (e) {
 
+            map.flyTo({
+              // center: e.features[0].geometry.coordinates,
+              center: [-87.94072662756412,47.09605579375477],
+              zoom: 6,
+              pitch: 0
+            });
 
-    map.addSource("all-sources", {
-        "type": "geojson",
-        "data": {
-            "type": "FeatureCollection",
-            "features": [
-            //   {
-            //     "type": "Feature",
-            //     "geometry": {
-            //         "type": "Polygon",
-            //         "coordinates": [
-            //           [
-            //             [-88.58131,46.467566],
-            //             [-88.58131,46.209611],
-            //             [-87.485857,46.206069],
-            //             [-87.496095,46.464041],
-            //             [-88.58131,46.467566]
-            //           ]
-            //         ]
-            //     }
-            // },
+            console.log("redirect: " + self.state.redirect)
+            console.dir("e: " + e.source)
 
-            {
-              "type": "Feature",
-              "properties": {
-                  "description": "<strong>Make it Mount Pleasant</strong><p><a href=\"http://www.mtpleasantdc.com/makeitmtpleasant\" target=\"_blank\" title=\"Opens in a new window\">Make it Mount Pleasant</a> is a handmade and vintage market and afternoon of live entertainment and kids activities. 12:00-6:00 p.m.</p>"
-                },
-              "geometry": {
-                  "type": "Point",
-                  "coordinates": [-88.58131,46.467566]
-              }
-            },
+            var newPathName = `/events/${layer.name}`
 
-            {
-              "type": "Feature",
-              "geometry": {
-                "type": "Point",
-                "coordinates": [-121.505184, 40.488084]
-              }
-            },
+            self.setState({
+              pathName: newPathName,
+              redirect: true
+            })
 
-            {
-                "type": "Feature",
-                "geometry": {
-                    "type": "Point",
-                    "coordinates": [-121.354465, 40.488737]
-                }
-            },
+            $(".info").css("display", "unset")
 
-            {
-            "type": "Feature",
-            "properties": {},
-            "geometry": {
-            "type": "Polygon",
-            "coordinates": [
-            [
-            [
-            -71.14789974636884,
-            41.64758738867177
-            ],
-            [
-            -71.1203820461734,
-            41.49465098730397
-            ],
-            [
-            -71.85382564969197,
-            41.32003632258973
-            ],
-            [
-            -71.79295081245215,
-            41.46661652278563
-            ],
-            [
-            -71.8009089830251,
-            42.013249823569055
-            ],
-            [
-            -71.37915178087496,
-            42.02436025651181
-            ],
-            [
-            -71.30507361518457,
-            41.76241242122431
-            ],
-            [
-            -71.14789974636884,
-            41.64758738867177
-            ]
-            ]
-            ]
-            }
-            }
-
-
-
-          ]
-        }
-    });
-
-
-
-
-
-    map.addLayer({
-        "id": "all-points",
-        "type": "circle",
-        "description": "Hello World",
-        "source": "all-sources",
-        // 'minzoom': 7,
-        "paint": {
-            "circle-radius": 6,
-            "circle-color": "#B42222"
-        },
-        "filter": ["==", "$type", "Point"],
-    });
-
-
-
-
-    map.on('click', 'all-points', function (e) {
-
-        map.flyTo({
-          // center: e.features[0].geometry.coordinates,
-          center: [-87.94072662756412,47.09605579375477],
-          zoom: 6,
-          pitch: 0
+            console.log("redirect: " + self.state.redirect)
         });
-
-        // map.addLayer({
-        //     "id": "upperPen",
-        //     "type": "fill",
-        //     "description": "Hello World",
-        //     "source": "upperPen",
-        //     // 'minzoom': 7,
-        //     "paint": {
-        //         "fill-color": "#888888",
-        //         "fill-opacity": 0.4
-        //     },
-        //     "filter": ["==", "$type", "Polygon"]
-        // });
-
-        console.log("redirect: " + self.state.redirect)
-
-        self.setState({
-          redirect: true
-        })
-
-        $(".info").css("display", "unset")
-
-        console.log("redirect: " + self.state.redirect)
-
-
-
-
-        // new mapboxgl.Popup()
-        // .setLngLat(e.features[0].geometry.coordinates)
-        // .setHTML(e.features[0].properties.description)
-        // .addTo(map);
-        // var newDiv = $("<div></div>")
-        // newDiv.append($("<p>hello</p>"))
-        // newDiv.addClass("newDiv")
-        // $(".info").append(newDiv)
-    });
-
+      })
 
   })
-
-
-
-
-  }
-  handleTrackedState(newStock){
-    let tempArray = this.state.stocks
-    tempArray.push(newStock)
-    this.setState({
-      stocks: tempArray,
-      hasTracked: true
-    })
-  }
-  clickUpperPen(){
-    this.state.thisMap.addLayer({
-        "id": "all-polygons",
-        "type": "fill",
-        "description": "Hello World",
-        "source": "all-sources",
-        'minzoom': 7,
-        "paint": {
-            "fill-color": "#888888",
-            "fill-opacity": 0.4
-        },
-        "filter": ["==", "$type", "Polygon"]
-    });
-
   }
 
   openNav() {
@@ -308,10 +146,29 @@ class App extends Component {
 
   render() {
 
-    // if (this.state.redirect) {
-    //   console.log("inside render")
-    //   return <Redirect to="/michigan" />;
-    // }
+    // let stocks = this.props.stocks.map((stock, i) => {
+    //   let pathname = `/stocks/${stock.symbol}`
+    //   return <li className="stocks-stock" key={i}>
+    //            {stock.name} (<Link to={{
+    //                             pathname,
+    //                             state: {selectedStock: stock}
+    //                           }}>
+    //                           {stock.symbol}
+    //                         </Link>)
+    //          </li>
+    // })
+// console.log(this.layers)
+    // console.log(this.visLayers)
+    //
+
+    // var infoButton = this.visLayers.map((layer,i) =>{
+    //   let pathname = '/events/michigan'
+    //  return <Link to={{pathname,state: {name: "michigan"}}}>
+    //             <div className="info" onClick={this.closeButton}>Go to Component</div>
+    //           </Link>
+    // })
+
+
 
 
 
@@ -322,12 +179,14 @@ class App extends Component {
     <div id='map'>
     </div>
 
+{/* {{pathname,state: {name: layer.id}}} */}
+    <Link to={this.state.pathName}>
+              <div className="info" onClick={this.closeButton}>Go to Component</div>
+            </Link>
 
 
 
-    <Link to="/michigan">
-      <div className="info" onClick={this.closeButton}>Go to Component</div>
-    </Link>
+    {/* {infoButton} */}
 
     <span id="openNav"  onClick={this.openNav}>&#9776;</span>
 
@@ -350,7 +209,8 @@ class App extends Component {
 
 
          <div className="main">
-           <Route path="/michigan" render={() => <Dashboard myMap={this.state.thisMap} data={Michigan.data} layers={this.state.layers.michigan}/>} />
+           {/* render={() => <Dashboard */}
+           <Route path="/events/:name" render={() => <Dashboard myMap={this.state.thisMap} data={Michigan.data} layers={this.state.layers.michigan}/>} />
            <Route path="/about" component={About} />
            <Route path="/stocks/:symbol" component={Stock} />
         </div>

@@ -1,3 +1,34 @@
+var michPoint = {
+  "type": "geojson",
+  "data": {
+    "type": "Feature",
+    "properties": {
+        "id": "michPoint",
+        "name": "michigan"
+      },
+    "geometry": {
+        "type": "Point",
+        "coordinates": [-88.58131,46.467566]
+    }
+  }
+}
+
+var testPoint = {
+  "type": "geojson",
+  "data": {
+    "type": "Feature",
+    "properties": {
+        "id": "testPoint",
+        "name": "test"
+      },
+    "geometry": {
+        "type": "Point",
+        "coordinates": [-88.58131,40.467566]
+    }
+  }
+}
+
+
 var upperPen = {
 
   "type": "geojson",
@@ -169,4 +200,10 @@ var data = [
 
 // console.log(data[0].addaLayer.layer)
 
-module.exports = {name: "michigan", data: data, layers: [upperPen, toledoPoint]}
+module.exports = {
+  name: "michigan",
+  data: data,
+  layers: [upperPen, toledoPoint],
+  visibleLayers: [michPoint, testPoint]
+  // visibleLayers: [{"michigan": michPoint}]
+}

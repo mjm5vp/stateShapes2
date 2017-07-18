@@ -6,6 +6,7 @@ class Dashboard extends Component {
   constructor(props){
     super(props)
     this.state = {
+      // name: this.props.location.state.name,
       data: this.props.data,
       layers: this.props.layers,
       currentSlide: 0,
@@ -82,17 +83,7 @@ class Dashboard extends Component {
 
 
   render() {
-    // let stocks = this.props.stocks.map((stock, i) => {
-    //   let pathname = `/stocks/${stock.symbol}`
-    //   return <li className="stocks-stock" key={i}>
-    //            {stock.name} (<Link to={{
-    //                             pathname,
-    //                             state: {selectedStock: stock}
-    //                           }}>
-    //                           {stock.symbol}
-    //                         </Link>)
-    //          </li>
-    // })
+
     return (
       <div className="testDash">
         <p className="descriptionField">{this.state.currentData.description}</p>
