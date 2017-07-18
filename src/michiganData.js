@@ -185,7 +185,7 @@ var data = [
     toggleLayer: {
       toggle: true,
       toggleState: "off",
-      layer: upperPen
+      layer: "upperPen"
     },
     showLayer: {
       show: false,

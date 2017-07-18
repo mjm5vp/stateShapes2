@@ -7,14 +7,18 @@ import {
   withRouter
 } from "react-router-dom"
 import "./Dashboard.css"
+import $ from "jquery";
+import axios from 'axios';
+
+
 
 class Dashboard extends Component {
   constructor(props){
     super(props)
     this.state = {
       name: this.props.location.state.name,
-      data: this.props.data,
-      layers: this.props.layers,
+      data: [],
+      layers: [],
       currentSlide: 0,
       currentData: {}
     }
@@ -22,22 +26,69 @@ class Dashboard extends Component {
     this.flyMap = this.flyMap.bind(this)
   }
 
-
+// this.props.layers
 
 
   componentDidMount(){
+    var self = this
+
     console.log("name: " + this.state.name)
 
-    this.setState({
-      currentData: this.state.data[0]
-    }, () => {
-      console.log("currentData description: " + this.state.currentData.description)
-      this.flyMap()
-    });
+    let url = "http://localhost:3001/users"
+    $.ajax({
+      url,
+      method: "GET",
+      dataType: "json"
+    }).then((response) => {
+      self.setState({
+            data: response,
+            currentSlide: 0,
+            currentData: response[0],
+      })
+  })
+}
+
+  componentDidUpdate(){
+    console.log("hello")
+    this.flyMap()
   }
+
+//   .then(() => {
+//     console.log("hello")
+//     self.flyMap()
+//     console.log(response)
+//   }
+//
+// )
+
+    // fetch('/users')
+    //   .then(res => res.json())
+    //   .then(data => {
+    //     console.log(data)
+    //     users = data
+    //   });
+    //
+    //   self.setState({
+    //     data: users,
+    //     currentData: users[0],
+    //     currentSlide: 0
+    //   }), () => {
+    //       console.log("currentData description: " + this.state.currentData.description)
+    //       self.flyMap()
+    //   }
+
+
+    // this.setState({
+    //   currentData: this.state.data[0]
+    // }, () => {
+    //   console.log("currentData description: " + this.state.currentData.description)
+    //   this.flyMap()
+    // });
+  // }
 
   nextSlide(e, plusOrMinus){
     console.log("data: "  + this.state.data.length)
+    console.log("slideNum: "  + this.state.currentSlide)
 
     var slideNum = this.state.currentSlide + plusOrMinus
 
@@ -91,6 +142,7 @@ class Dashboard extends Component {
 
 
   render() {
+
 
     return (
       <div className="testDash">

@@ -20,7 +20,8 @@ class App extends Component {
   constructor(props){
     super(props)
     this.state = {
-      pathName: "/events/michigan",
+      name: "",
+      pathName: "",
       thisMap: null,
       redirect: false,
       layers:{},
@@ -136,12 +137,14 @@ class App extends Component {
 
 
             var newPathName = `/events/${layer.name}`
+            var newName = layer.name
             var newSendData = self.state.allData[layer.name]
 
 
             self.setState({
               sendData: newSendData,
               pathName: newPathName,
+              name: newName,
               redirect: true
             })
 
@@ -210,7 +213,7 @@ class App extends Component {
     </div>
 
 {/* {{pathname,state: {name: layer.id}}} */}
-    <Link to={{pathname: self.state.pathName, state: {name: "michigan"}}}>
+    <Link to={{pathname: self.state.pathName, state: {name: self.state.name}}}>
             <div className="info" onClick={self.closeButton}>Go to Component</div>
     </Link>
 
