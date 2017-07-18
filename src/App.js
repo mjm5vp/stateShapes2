@@ -118,6 +118,7 @@ class App extends Component {
 
       allVisLayers.forEach((layer, index) => {
         map.on('click', layer.id, function (e) {
+          console.log("inside click")
 
             map.flyTo({
               // center: e.features[0].geometry.coordinates,
@@ -189,7 +190,14 @@ class App extends Component {
     //             <div className="info" onClick={this.closeButton}>Go to Component</div>
     //           </Link>
     // })
+    let self = this
+    let event = function(){
+      return <Dashboard myMap={self.state.thisMap} data={self.state.sendData} layers={self.state.layers.michigan}/>
 
+        // (<Link to={{pathname: self.state.pathName, state: {name: "michigan"}}}>
+        //         <div className="info" onClick={self.closeButton}>Go to Component</div>
+        // </Link>)
+    }
 
 
 
@@ -202,9 +210,11 @@ class App extends Component {
     </div>
 
 {/* {{pathname,state: {name: layer.id}}} */}
-    <Link to={this.state.pathName}>
-              <div className="info" onClick={this.closeButton}>Go to Component</div>
-            </Link>
+    <Link to={{pathname: self.state.pathName, state: {name: "michigan"}}}>
+            <div className="info" onClick={self.closeButton}>Go to Component</div>
+    </Link>
+
+    {/* {event} */}
 
 
 
@@ -232,7 +242,7 @@ class App extends Component {
 
          <div className="main">
            {/* render={() => <Dashboard */}
-           <Route path="/events/:name" render={() => <Dashboard myMap={this.state.thisMap} data={this.state.sendData} layers={this.state.layers.michigan}/>} />
+           <Route path="/events/:name" component={event} />
            <Route path="/about" component={About} />
            <Route path="/stocks/:symbol" component={Stock} />
         </div>

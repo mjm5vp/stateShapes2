@@ -1,12 +1,18 @@
 import React, { Component } from 'react'
-import { Link } from "react-router-dom"
+import {
+  BrowserRouter as Router,
+  Route,
+  Link,
+  Redirect,
+  withRouter
+} from "react-router-dom"
 import "./Dashboard.css"
 
 class Dashboard extends Component {
   constructor(props){
     super(props)
     this.state = {
-      // name: this.props.location.state.name,
+      name: this.props.location.state.name,
       data: this.props.data,
       layers: this.props.layers,
       currentSlide: 0,
@@ -20,6 +26,7 @@ class Dashboard extends Component {
 
 
   componentDidMount(){
+    console.log("name: " + this.state.name)
 
     this.setState({
       currentData: this.state.data[0]
@@ -30,6 +37,7 @@ class Dashboard extends Component {
   }
 
   nextSlide(e, plusOrMinus){
+    console.log("data: "  + this.state.data.length)
 
     var slideNum = this.state.currentSlide + plusOrMinus
 
@@ -97,4 +105,4 @@ class Dashboard extends Component {
   }
 }
 
-export default Dashboard;
+export default withRouter(Dashboard);
