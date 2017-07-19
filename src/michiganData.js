@@ -4,7 +4,10 @@ var michPoint = {
     "type": "Feature",
     "properties": {
         "id": "michPoint",
-        "name": "michigan"
+        "name": "michigan",
+        "circleRadius": 8,
+        "circleColor": "blue",
+        "minzoom": 5,
       },
     "geometry": {
         "type": "Point",

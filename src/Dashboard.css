@@ -19,12 +19,33 @@
 
 .descriptionField{
   flex-grow: 4;
+  display: flex;
+  flex-direction: row;
+}
+
+.descriptionText{
+  flex-grow: 9;
+}
+
+.closeButtonContainer{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
 .buttonContainer{
   display: flex;
   flex-direction: row;
 
+}
+
+.xButton{
+
+}
+
+.xButton:hover{
+  cursor: pointer;
+  color: white;
 }
 
 .slideButton{

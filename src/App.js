@@ -30,7 +30,8 @@ class App extends Component {
         michigan: michigan.data,
         maine: maine.data
       },
-      sendData: {}
+      sendData: {},
+      saveData: {}
     }
     // this.handleTrackedState = this.handleTrackedState.bind(this)
   }
@@ -91,9 +92,10 @@ class App extends Component {
                 "id": visLayer.data.properties.id,
                 "type": "circle",
                 "source": visLayer,
+                "minzoom": visLayer.data.properties.minzoom || 1,
                 "paint": {
-                    "circle-radius": 6,
-                    "circle-color": "#B42222"
+                    "circle-radius": visLayer.data.properties.circleRadius || 10,
+                    "circle-color": visLayer.data.properties.circleColor|| "#B42222"
                 },
                 "filter": ["==", "$type", "Point"],
             });
@@ -120,10 +122,16 @@ class App extends Component {
       allVisLayers.forEach((layer, index) => {
         map.on('click', layer.id, function (e) {
           console.log("inside click")
+          var saveData = {
+            center: e.features[0].geometry.coordinates,
+            zoom: map.getZoom(),
+            pitch: map.getPitch(),
+            bearing: map.getBearing(),
+          }
+          console.log(saveData)
 
             map.flyTo({
               center: e.features[0].geometry.coordinates,
-              // center: [-87.94072662756412,47.09605579375477],
               zoom: 6,
               pitch: 0
             });
@@ -145,7 +153,8 @@ class App extends Component {
               sendData: newSendData,
               pathName: newPathName,
               name: newName,
-              redirect: true
+              redirect: true,
+              saveData: saveData
             })
 
             $(".info").css("display", "unset")
@@ -195,7 +204,7 @@ class App extends Component {
     // })
     let self = this
     let event = function(){
-      return <Dashboard myMap={self.state.thisMap} data={self.state.sendData} layers={self.state.layers.michigan}/>
+      return <Dashboard myMap={self.state.thisMap} data={self.state.sendData} layers={self.state.layers.michigan} saveData={self.state.saveData}/>
 
         // (<Link to={{pathname: self.state.pathName, state: {name: "michigan"}}}>
         //         <div className="info" onClick={self.closeButton}>Go to Component</div>
@@ -216,7 +225,6 @@ class App extends Component {
     <Link to={{pathname: self.state.pathName, state: {name: self.state.name}}}>
             <div className="info" onClick={self.closeButton}>Go to Component</div>
     </Link>
-
     {/* {event} */}
 
 
@@ -246,8 +254,7 @@ class App extends Component {
          <div className="main">
            {/* render={() => <Dashboard */}
            <Route path="/events/:name" component={event} />
-           <Route path="/about" component={About} />
-           <Route path="/stocks/:symbol" component={Stock} />
+
         </div>
 
         </div>

@@ -4,11 +4,15 @@ import {
   Route,
   Link,
   Redirect,
-  withRouter
+  withRouter,
+  BrowserHistory
 } from "react-router-dom"
 import "./Dashboard.css"
 import $ from "jquery";
 import axios from 'axios';
+import App from "./App"
+// var BrowserHistory = require('react-router/lib/BrowserHistory').default;
+
 
 
 
@@ -20,10 +24,11 @@ class Dashboard extends Component {
       data: [],
       layers: [],
       currentSlide: 0,
-      currentData: {}
+      currentData: {},
     }
     this.nextSlide = this.nextSlide.bind(this)
     this.flyMap = this.flyMap.bind(this)
+    this.closeButton = this.closeButton.bind(this)
   }
 
 // this.props.layers
@@ -31,6 +36,8 @@ class Dashboard extends Component {
 
   componentDidMount(){
     var self = this
+    $(".testDash").css("display", "unset")
+    // $(".info").css("display", "none")
 
     console.log("name: " + this.state.name)
 
@@ -126,7 +133,7 @@ class Dashboard extends Component {
        zoom: self.state.currentData.zoom,
        pitch: self.state.currentData.pitch,
        bearing: self.state.currentData.bearing,
-      center: self.state.currentData.center
+       center: self.state.currentData.center
     });
   }
 
@@ -144,6 +151,24 @@ class Dashboard extends Component {
     })
   }
 
+  closeButton(){
+    console.log("close")
+    var self = this
+    // $(".testDash").css("display", "none")
+    this.props.myMap.flyTo({
+      zoom: this.props.saveData.zoom || 3,
+      pitch: this.props.saveData.pitch || 0,
+      bearing: this.props.saveData.bearing || 0,
+      center: this.props.saveData.center ||[-95, 40]
+    })
+    BrowserHistory.goBack()
+  }
+
+  componentWillUnmount(){
+    $(".testDash").css("display", "none")
+    // $(".info").css("display", "none")
+  }
+
 
 
 
@@ -151,14 +176,28 @@ class Dashboard extends Component {
 
 
     return (
+    <Router history={BrowserHistory}>
+
+
       <div className="testDash">
-        <p className="descriptionField">{this.state.currentData.description}</p>
+        <div className="descriptionField">
+          <div className="descriptionText">{this.state.currentData.description}</div>
+          <div className="closeButtonContainer">
+            <div className="xButton"><Link to="/">X</Link></div>/>
+          </div>
+        </div>
+        {/* <p className="descriptionField">{this.state.currentData.description}</p> */}
+        {/* <div className="closeButton" onClick={this.closeButton()}>x</div> */}
         <div className="buttonContainer">
           <div className="slideButton" onClick={(e) => this.nextSlide(e,-1)}>Previous Slide</div>
           <div className="slideButton" onClick={(e) => this.nextSlide(e,1)}>Next Slide</div>
         </div>
 
+        <div className="main">
+        </div>
+
       </div>
+    </Router>
     );
   }
 }
