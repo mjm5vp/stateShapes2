@@ -83,20 +83,35 @@ var toledoPoint = {
   "data": {
 
     "geometry": {
-      "coordinates": [
-        [
-          [-83.4796142578125,41.71187978193456],
-          [-83.60183715820312,41.69855129353962],
-          [-83.59634399414061,41.6257084937525],
-          [-83.4521484375,41.64007838467894],
-          [-83.4796142578125,41.71187978193456]
-        ]
-      ],
-      "type": "Polygon"
+      "coordinates":[-83.50428985595703,41.68675839204304],
+      "type": "Point"
     },
     "type": "Feature",
     "properties": {
       "id": "toledoPoint",
+      "name": "toledoPoint",
+      "circleRadius": 8,
+      "circleColor": "blue",
+    }
+  }
+
+}
+
+var isleRoyale = {
+
+  "type": "geojson",
+  "data": {
+
+    "geometry": {
+      "coordinates":[-88.88903870541499, 47.98221821976671],
+      "type": "Point"
+    },
+    "type": "Feature",
+    "properties": {
+      "id": "isleRoyale",
+      "name": "isleRoyale",
+      "circleRadius": 8,
+      "circleColor": "blue",
     }
   }
 
@@ -191,7 +206,7 @@ var data = [
 module.exports = {
   name: "michigan",
   data: data,
-  layers: [upperPen, toledoPoint],
+  layers: [upperPen, toledoPoint, isleRoyale],
   visibleLayers: [michPoint]
   // visibleLayers: [{"michigan": michPoint}]
 }

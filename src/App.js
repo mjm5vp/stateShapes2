@@ -83,18 +83,48 @@ class App extends Component {
       var michLayers = []
       allFiles.forEach((file, index) => {
         file.layers.forEach((layer, index)=>{
-          console.log(layer.data.properties.id)
+
+          if(layer.data.geometry.type == "Point"){
+          console.log("invisible point " + layer.data.properties.id)
           var newLayer = map.addLayer({
                 "id": layer.data.properties.id,
-                "type": "fill",
+                "type": "symbol",
                 "description": "Hello World",
                 "source": layer,
                 "paint": {
-                    "fill-color": "#888888",
-                    "fill-opacity": 0.4
+                    // "color": "#888888",
+                    // "opacity": 0.4
                 },
-                "filter": ["==", "$type", "Polygon"]
+                "layout": {
+                    "icon-image": "embassy-15"
+                }
             });
+          }else if(layer.data.geometry.type == "LineString"){
+          console.log(layer.data.properties.id)
+          var newLayer = map.addLayer({
+                "id": layer.data.properties.id,
+                "type": "line",
+                "description": "Hello World",
+                "source": layer,
+                "paint": {
+                    "line-color": "#888888",
+                    "line-width": 5
+                }
+            });
+          }else if(layer.data.geometry.type == "Polygon"){
+            console.log(layer.data.properties.id)
+            var newLayer = map.addLayer({
+                  "id": layer.data.properties.id,
+                  "type": "fill",
+                  "description": "Hello World",
+                  "source": layer,
+                  "paint": {
+                      "fill-color": "#888888",
+                      "fill-opacity": 0.4
+                  }
+              });
+            }
+            console.log(newLayer)
             map.setLayoutProperty(layer.data.properties.id, 'visibility', 'none');
             michLayers.push(layer.data.properties.id)
         })
@@ -117,14 +147,31 @@ class App extends Component {
             console.log("point " + visLayer.data.properties.id)
             var newLayer = map.addLayer({
                   "id": visLayer.data.properties.id,
-                  "type": "circle",
+                  "type": "symbol",
+                  "source": visLayer,
+                  "minzoom": visLayer.data.properties.minzoom || 1,
+                  "paint": {
+
+                      // "circle-radius": visLayer.data.properties.circleRadius || 10,
+                      // "circle-color": visLayer.data.properties.circleColor|| "#B42222"
+                  },
+                  "layout": {
+                      "icon-image": "embassy-15"
+                  }
+                  // "filter": ["==", "$type", "Point"],
+              });
+          }else if(visLayer.data.geometry.type == "Marker"){
+            console.log("marker " + visLayer.data.properties.id)
+            var newLayer = map.addLayer({
+                  "id": visLayer.data.properties.id,
+                  "type": "marker",
                   "source": visLayer,
                   "minzoom": visLayer.data.properties.minzoom || 1,
                   "paint": {
                       "circle-radius": visLayer.data.properties.circleRadius || 10,
                       "circle-color": visLayer.data.properties.circleColor|| "#B42222"
                   },
-                  "filter": ["==", "$type", "Point"],
+                  "filter": ["==", "$type", "Marker"],
               });
           }else if (visLayer.data.geometry.type == "LineString") {
             console.log("line " + visLayer.data.properties.id)

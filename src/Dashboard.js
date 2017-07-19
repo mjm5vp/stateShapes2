@@ -54,11 +54,42 @@ class Dashboard extends Component {
             currentData: response[0],
       })
   })
+
+  $(document).keydown(function(e) {
+    console.log("key press")
+    switch(e.which) {
+        case 37: // left
+        self.nextSlide(e,-1)
+        break;
+
+        case 38: // up
+        break;
+
+        case 39: // right
+        self.nextSlide(e,1)
+        break;
+
+        case 40: // down
+        break;
+
+        default: return; // exit this handler for other keys
+    }
+    e.preventDefault(); // prevent the default action (scroll / move caret)
+});
 }
 
   componentDidUpdate(){
     console.log("hello")
+    this.updateDescriptionText()
+    if(this.state.currentData.hideLayer.hide){
+      console.log("hideLayer")
+      this.hideLayer()
+    }
 
+    if(this.state.currentData.showLayer.show){
+      console.log("showLayer")
+      this.showLayer()
+    }
     this.flyMap()
   }
 
@@ -98,6 +129,8 @@ class Dashboard extends Component {
   nextSlide(e, plusOrMinus){
     console.log("data: "  + this.state.data.length)
     console.log("slideNum: "  + this.state.currentSlide)
+    this.updateDescriptionText()
+
 
     var slideNum = this.state.currentSlide + plusOrMinus
 
@@ -124,6 +157,7 @@ class Dashboard extends Component {
       });
     }else{
       console.log("out of slides!")
+      this.closeButton()
     }
 
   }
@@ -172,10 +206,16 @@ class Dashboard extends Component {
     // $(".info").css("display", "none")
   }
 
+  updateDescriptionText(){
+    $(".descriptionText").html(this.state.currentData.description)
+  }
+
 
 
 
   render() {
+    let self = this
+
 
 
     return (
@@ -183,22 +223,29 @@ class Dashboard extends Component {
 
 
       <div className="testDash">
-        <div className="descriptionField">
-          <div className="descriptionText">{this.state.currentData.description}</div>
-          <div className="closeButtonContainer">
-            <div onClick={this.closeButton} className="xButton"><Link to="/">X</Link></div>
+        <div className="subDash">
+
+          <div className="buttonContainer">
+            <div id="prev" className="slideButton" onClick={(e) => this.nextSlide(e,-1)}>Previous</div>
           </div>
-        </div>
-        {/* <p className="descriptionField">{this.state.currentData.description}</p> */}
-        {/* <div className="closeButton" onClick={this.closeButton()}>x</div> */}
-        <div className="buttonContainer">
-          <div className="slideButton" onClick={(e) => this.nextSlide(e,-1)}>Previous Slide</div>
-          <div className="slideButton" onClick={(e) => this.nextSlide(e,1)}>Next Slide</div>
-        </div>
 
-        <div className="main">
-        </div>
 
+          <div className="descriptionField">
+            <div className="descriptionText"></div>
+          </div>
+
+          {/* <p className="descriptionField">{this.state.currentData.description}</p> */}
+          {/* <div className="closeButton" onClick={this.closeButton()}>x</div> */}
+
+          <div className="buttonContainer">
+            <div id="next" className="slideButton" onClick={(e) => this.nextSlide(e,1)}>Next</div>
+          </div>
+
+          <div className="closeButtonContainer">
+            <div onClick={this.closeButton} ><Link to="/" className="xButton">X</Link></div>
+          </div>
+
+        </div>
       </div>
     </Router>
     );
