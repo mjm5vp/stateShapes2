@@ -18,8 +18,13 @@ ReactDOM.render(
 //   <Route path="/events/:name" component={event} />
 // </div>
 // </Router>),
-  <App className='map'/>,
+/* <Router>
+  <Route exact path='/' component={App} />
+</Router>  */
 
+
+
+  <App className='map'/>,
   document.getElementById('root')
 
 );

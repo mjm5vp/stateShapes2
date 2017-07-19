@@ -38,6 +38,7 @@ class Dashboard extends Component {
     var self = this
     $(".testDash").css("display", "unset")
     // $(".info").css("display", "none")
+    // this.props.compOn()
 
     console.log("name: " + this.state.name)
 
@@ -57,6 +58,7 @@ class Dashboard extends Component {
 
   componentDidUpdate(){
     console.log("hello")
+
     this.flyMap()
   }
 
@@ -161,7 +163,8 @@ class Dashboard extends Component {
       bearing: this.props.saveData.bearing || 0,
       center: this.props.saveData.center ||[-95, 40]
     })
-    BrowserHistory.goBack()
+    this.props.revert()
+    // BrowserHistory.goBack()
   }
 
   componentWillUnmount(){
@@ -183,7 +186,7 @@ class Dashboard extends Component {
         <div className="descriptionField">
           <div className="descriptionText">{this.state.currentData.description}</div>
           <div className="closeButtonContainer">
-            <div className="xButton"><Link to="/">X</Link></div>/>
+            <div onClick={this.closeButton} className="xButton"><Link to="/">X</Link></div>
           </div>
         </div>
         {/* <p className="descriptionField">{this.state.currentData.description}</p> */}

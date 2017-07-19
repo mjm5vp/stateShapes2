@@ -31,15 +31,20 @@ class App extends Component {
         maine: maine.data
       },
       sendData: {},
-      saveData: {}
+      saveData: {},
+      showImage: true
     }
-    // this.handleTrackedState = this.handleTrackedState.bind(this)
+     this.closeButton = this.closeButton.bind(this)
+     this.revert = this.revert.bind(this)
+     this.compOn = this.compOn.bind(this)
+     this.testClick = this.testClick.bind(this)
+
   }
   componentDidMount(){
 
     var allFiles = [michigan, maine]
 
-    console.log(this.state.pathName)
+    console.log(this.props)
     var self = this
     mapboxgl.accessToken = 'pk.eyJ1IjoibWFya21vZWxsZXJ1dmEiLCJhIjoiY2o0dXFsa2F6MG44eTJ4cGwxZ2hrOHVkbCJ9.oXW5yLvO_PXRxDBCwA5DRQ';
 
@@ -50,7 +55,8 @@ class App extends Component {
 
     var map = new mapboxgl.Map({
         container: 'map', // container id
-        style: "mapbox://styles/mapbox/satellite-streets-v10", //stylesheet location
+        style: "mapbox://styles/markmoelleruva/cj5b7btrz17vn2rqx1ldub98b",
+        // style: "mapbox://styles/mapbox/satellite-streets-v10", //stylesheet location
         center: [-98.089702, 39.941827],
         zoom: 3, // starting zoom
         maxBounds: bounds
@@ -121,6 +127,10 @@ class App extends Component {
 
       allVisLayers.forEach((layer, index) => {
         map.on('click', layer.id, function (e) {
+
+          map.on("click", self.testClick)
+
+
           console.log("inside click")
           var saveData = {
             center: e.features[0].geometry.coordinates,
@@ -163,7 +173,19 @@ class App extends Component {
         });
       })
 
+
+
   })
+  }
+
+  testClick(){
+    var self = this
+    $(".info").css("display", "none")
+    this.state.visLayers.forEach((layer, index) => {
+      self.state.thisMap.on('click', layer.id, function (e) {
+        $(".info").css("display", "unset")
+      })
+    })
   }
 
   openNav() {
@@ -175,7 +197,20 @@ class App extends Component {
   }
 
   closeButton() {
+    this.setState({
+      showImage: true
+    })
     $(".info").css("display", "none")
+  }
+
+  revert(){
+    this.setState({
+      showImage: false
+    })
+  }
+
+  compOn(){
+    console.log("hello app")
   }
 
 
@@ -203,13 +238,19 @@ class App extends Component {
     //           </Link>
     // })
     let self = this
-    let event = function(){
-      return <Dashboard myMap={self.state.thisMap} data={self.state.sendData} layers={self.state.layers.michigan} saveData={self.state.saveData}/>
+    let event = this.state.showImage ? function(){
+      return <Dashboard myMap={self.state.thisMap} data={self.state.sendData} layers={self.state.layers.michigan} saveData={self.state.saveData} revert={self.revert} compOn={self.compOn}/>}
+      : function(){
+        return null
+      }
 
-        // (<Link to={{pathname: self.state.pathName, state: {name: "michigan"}}}>
-        //         <div className="info" onClick={self.closeButton}>Go to Component</div>
-        // </Link>)
-    }
+      // let event = function(){
+      //   return <Dashboard myMap={self.state.thisMap} data={self.state.sendData} layers={self.state.layers.michigan} saveData={self.state.saveData} revert={self.revert} compOn={self.compOn}/>
+      // }
+      //   (<Link to={{pathname: self.state.pathName, state: {name: "michigan"}}}>
+      //           <div className="info" onClick={self.closeButton}>Go to Component</div>
+      //   </Link>)
+
 
 
 
