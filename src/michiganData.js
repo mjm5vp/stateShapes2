@@ -8,6 +8,7 @@ var michPoint = {
         "circleRadius": 8,
         "circleColor": "blue",
         "minzoom": 5,
+        "question": "Why is this a part of Michigan?"
       },
     "geometry": {
         "type": "Point",
@@ -15,22 +16,6 @@ var michPoint = {
     }
   }
 }
-
-var testPoint = {
-  "type": "geojson",
-  "data": {
-    "type": "Feature",
-    "properties": {
-        "id": "testPoint",
-        "name": "test"
-      },
-    "geometry": {
-        "type": "Point",
-        "coordinates": [-88.58131,40.467566]
-    }
-  }
-}
-
 
 var upperPen = {
 
@@ -207,6 +192,6 @@ module.exports = {
   name: "michigan",
   data: data,
   layers: [upperPen, toledoPoint],
-  visibleLayers: [michPoint, testPoint]
+  visibleLayers: [michPoint]
   // visibleLayers: [{"michigan": michPoint}]
 }

@@ -13,6 +13,10 @@ import Stock from "./Stock"
 import mapboxgl from 'mapbox-gl';
 import michigan from "./michiganData.js"
 import maine from "./maineData.js"
+import masonDixonLine from "./initialLayers/masonDixon.js"
+import minnesotaNotch from "./initialLayers/minnesotaNotch.js"
+import georgiaNorth from "./initialLayers/georgiaNorth.js"
+import kentuckyIsland from "./initialLayers/kentuckyIsland.js"
 import $ from "jquery";
 import "./App.css"
 
@@ -32,7 +36,8 @@ class App extends Component {
       },
       sendData: {},
       saveData: {},
-      showImage: true
+      showImage: true,
+      question: ""
     }
      this.closeButton = this.closeButton.bind(this)
      this.revert = this.revert.bind(this)
@@ -42,7 +47,7 @@ class App extends Component {
   }
   componentDidMount(){
 
-    var allFiles = [michigan, maine]
+    var allFiles = [maine, michigan, masonDixonLine, minnesotaNotch, georgiaNorth, kentuckyIsland]
 
     console.log(this.props)
     var self = this
@@ -62,11 +67,18 @@ class App extends Component {
         maxBounds: bounds
     });
 
+
+
     this.setState({
       thisMap: map
     })
 
     map.on('load', function () {
+
+      map.on('click', function(e){
+        console.log(map.getZoom())
+        console.log(e.lngLat)
+      })
 
       var michLayers = []
       allFiles.forEach((file, index) => {
@@ -91,24 +103,61 @@ class App extends Component {
 
       var allVisLayers = []
 
+
+
+
       allFiles.forEach((file, index) =>{
+
+
         file.visibleLayers.forEach((visLayer, index)=>{
-          console.log(visLayer.data.properties.id)
-          var newLayer = map.addLayer({
-                "id": visLayer.data.properties.id,
-                "type": "circle",
-                "source": visLayer,
-                "minzoom": visLayer.data.properties.minzoom || 1,
-                "paint": {
-                    "circle-radius": visLayer.data.properties.circleRadius || 10,
-                    "circle-color": visLayer.data.properties.circleColor|| "#B42222"
-                },
-                "filter": ["==", "$type", "Point"],
-            });
-            // map.setLayoutProperty(layer.data.properties.id, 'visibility', 'none');
-            allVisLayers.push({name: visLayer.data.properties.name, id: visLayer.data.properties.id})
-        })
-      })
+
+
+
+          if(visLayer.data.geometry.type == "Point"){
+            console.log("point " + visLayer.data.properties.id)
+            var newLayer = map.addLayer({
+                  "id": visLayer.data.properties.id,
+                  "type": "circle",
+                  "source": visLayer,
+                  "minzoom": visLayer.data.properties.minzoom || 1,
+                  "paint": {
+                      "circle-radius": visLayer.data.properties.circleRadius || 10,
+                      "circle-color": visLayer.data.properties.circleColor|| "#B42222"
+                  },
+                  "filter": ["==", "$type", "Point"],
+              });
+          }else if (visLayer.data.geometry.type == "LineString") {
+            console.log("line " + visLayer.data.properties.id)
+            var newLayer = map.addLayer({
+                  "id": visLayer.data.properties.id,
+                  "type": "line",
+                  "source": visLayer,
+                  "minzoom": visLayer.data.properties.minzoom || 1,
+                  "paint": {
+                      "line-width": visLayer.data.properties.lineWidth || 10,
+                      "line-color": visLayer.data.properties.lineColor|| "#B42222"
+                  },
+                  "filter": ["==", "$type", "LineString"],
+              });
+            }else if (visLayer.data.geometry.type == "Polygon") {
+              console.log("polygon " + visLayer.data.properties.id)
+              var newLayer = map.addLayer({
+                    "id": visLayer.data.properties.id,
+                    "type": "fill",
+                    "source": visLayer,
+                    "minzoom": visLayer.data.properties.minzoom || 1,
+                    "paint": {
+                        "fill-opacity": visLayer.data.properties.fillOpacity || 1,
+                        "fill-color": visLayer.data.properties.fillColor|| "#B42222"
+                    },
+                    "filter": ["==", "$type", "Polygon"],
+                });
+            }
+
+          allVisLayers.push({name: visLayer.data.properties.name, id: visLayer.data.properties.id, question: visLayer.data.properties.question})
+})
+})
+
 
 
 
@@ -131,9 +180,10 @@ class App extends Component {
           map.on("click", self.testClick)
 
 
-          console.log("inside click")
+          console.log(map.getZoom())
+          console.log(e.lngLat)
           var saveData = {
-            center: e.features[0].geometry.coordinates,
+            center: e.lngLat,
             zoom: map.getZoom(),
             pitch: map.getPitch(),
             bearing: map.getBearing(),
@@ -141,7 +191,7 @@ class App extends Component {
           console.log(saveData)
 
             map.flyTo({
-              center: e.features[0].geometry.coordinates,
+              center: e.lngLat,
               zoom: 6,
               pitch: 0
             });
@@ -164,7 +214,8 @@ class App extends Component {
               pathName: newPathName,
               name: newName,
               redirect: true,
-              saveData: saveData
+              saveData: saveData,
+              question: layer.question
             })
 
             $(".info").css("display", "unset")
@@ -187,6 +238,8 @@ class App extends Component {
       })
     })
   }
+
+
 
   openNav() {
   $(".map-overlay").css("width", "250px")
@@ -264,7 +317,7 @@ class App extends Component {
 
 {/* {{pathname,state: {name: layer.id}}} */}
     <Link to={{pathname: self.state.pathName, state: {name: self.state.name}}}>
-            <div className="info" onClick={self.closeButton}>Go to Component</div>
+            <div className="info" onClick={self.closeButton}>{self.state.question}</div>
     </Link>
     {/* {event} */}
 
