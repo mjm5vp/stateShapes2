@@ -17,6 +17,11 @@ import masonDixonLine from "./initialLayers/masonDixon.js"
 import minnesotaNotch from "./initialLayers/minnesotaNotch.js"
 import georgiaNorth from "./initialLayers/georgiaNorth.js"
 import kentuckyIsland from "./initialLayers/kentuckyIsland.js"
+import mississippiRiver from "./initialLayers/mississippiRiver.js"
+import dc from "./initialLayers/dc.js"
+
+import allStates from "./fullStates/arizona.js"
+
 import $ from "jquery";
 import "./App.css"
 
@@ -28,7 +33,7 @@ class App extends Component {
       pathName: "",
       thisMap: null,
       redirect: false,
-      layers:{},
+      allLayers:[],
       visLayers: michigan.visibleLayers,
       allData: {
         michigan: michigan.data,
@@ -47,12 +52,14 @@ class App extends Component {
   }
   componentDidMount(){
 
-    var allFiles = [maine, michigan, masonDixonLine, minnesotaNotch, georgiaNorth, kentuckyIsland]
+
+
+    var allFiles = [maine, michigan, masonDixonLine, minnesotaNotch, georgiaNorth, kentuckyIsland, mississippiRiver, dc]
 
     console.log(this.props)
     var self = this
     mapboxgl.accessToken = 'pk.eyJ1IjoibWFya21vZWxsZXJ1dmEiLCJhIjoiY2o0dXFsa2F6MG44eTJ4cGwxZ2hrOHVkbCJ9.oXW5yLvO_PXRxDBCwA5DRQ';
-
+    var allLayers = []
     var bounds = [
       [-130.558390, 23.810610], // Southwest coordinates
       [-63.211476, 50.854057]  // Northeast coordinates
@@ -67,20 +74,37 @@ class App extends Component {
         maxBounds: bounds
     });
 
-
-
     this.setState({
       thisMap: map
     })
 
     map.on('load', function () {
 
+      allStates.layers[0].features.forEach((state, index) => {
+        console.log(state.properties.name)
+        var newLayer = map.addLayer({
+              "id": ("full" + state.properties.name),
+              "type": "fill",
+              "source": {
+                type: "geojson",
+                data: state},
+              "minzoom": state.properties.minzoom || 1,
+              "paint": {
+                  "fill-opacity": .5,
+                  "fill-color": "#B42222"
+              },
+              "filter": ["==", "$type", "Polygon"],
+          });
+          map.setLayoutProperty(("full" + state.properties.name), 'visibility', 'none');
+          allLayers.push({id: ("full" + state.properties.name)})
+
+      })
+
       map.on('click', function(e){
         console.log(map.getZoom())
         console.log(e.lngLat)
       })
 
-      var michLayers = []
       allFiles.forEach((file, index) => {
         file.layers.forEach((layer, index)=>{
 
@@ -107,8 +131,8 @@ class App extends Component {
                 "description": "Hello World",
                 "source": layer,
                 "paint": {
-                    "line-color": "#888888",
-                    "line-width": 5
+                    "line-color": layer.data.properties.lineColor || "#888888",
+                    "line-width": layer.data.properties.lineWidth || 5
                 }
             });
           }else if(layer.data.geometry.type == "Polygon"){
@@ -119,15 +143,15 @@ class App extends Component {
                   "description": "Hello World",
                   "source": layer,
                   "paint": {
-                      "fill-color": "#888888",
-                      "fill-opacity": 0.4
+                      "fill-color": layer.data.properties.fillColor || "#888888",
+                      "fill-opacity": layer.data.properties.fillOpacity || .4
                   }
               });
             }
             console.log(newLayer)
             map.setLayoutProperty(layer.data.properties.id, 'visibility', 'none');
-            michLayers.push(layer.data.properties.id)
-        })
+            allLayers.push({id: layer.data.properties.id})
+      })
       })
 
 
@@ -201,24 +225,19 @@ class App extends Component {
                 });
             }
 
+
+
+
           allVisLayers.push({name: visLayer.data.properties.name, id: visLayer.data.properties.id, question: visLayer.data.properties.question})
 })
+
+// console.log(allStates.visibleLayers[0].features[0])
+
+
 })
 
 
 
-
-
-
-      var name = michigan.name
-
-      self.setState({
-        layers: {michigan: michLayers}
-      })
-
-      self.setState({
-        visLayers: allVisLayers
-      })
 
 
       allVisLayers.forEach((layer, index) => {
@@ -271,10 +290,19 @@ class App extends Component {
         });
       })
 
+      self.setState({
+        layers: allLayers
+      })
+
+      self.setState({
+        visLayers: allVisLayers
+      })
+
 
 
   })
   }
+
 
   testClick(){
     var self = this
@@ -307,6 +335,12 @@ class App extends Component {
     this.setState({
       showImage: false
     })
+    this.state.layers.forEach((layer, index) => {
+      console.log(layer.id)
+      this.state.thisMap.setLayoutProperty(layer.id, 'visibility', 'none');
+
+    })
+
   }
 
   compOn(){

@@ -9,7 +9,7 @@ var georgiaNorth = {
               "lineWidth": 5,
               "lineColor": "red",
               "minzoom": 5,
-              "question": "Why are Georgia and Tennessee still fightin over this border?"
+              "question": "Why are Georgia and Tennessee still fighting over this border?"
             },
             "geometry": {
               "type": "LineString",

@@ -5,7 +5,7 @@ var minnesotaNotch = {
             "type": "Feature",
             "properties": {
               "id": "minnesotaNotch",
-              "name": "minnesotaNotch",
+              "name": "minnesota",
               "lineWidth": 5,
               "lineColor": "purple",
               "minzoom": 5,
@@ -538,10 +538,30 @@ var minnesotaNotch = {
       }
 }
 
+var lakeOfTheWoods = {
+
+  "type": "geojson",
+  "data": {
+
+    "geometry": {
+      "coordinates":[-94.92992402559832, 49.054534211068585],
+      "type": "Point"
+    },
+    "type": "Feature",
+    "properties": {
+      "id": "lakeOfTheWoods",
+      "name": "lakeOfTheWoods",
+      "circleRadius": 8,
+      "circleColor": "blue",
+    }
+  }
+
+}
+
 module.exports = {
-  name: "minnesotaNotch",
+  name: "minnesota",
   data: null,
-  layers: [],
+  layers: [lakeOfTheWoods],
   visibleLayers: [minnesotaNotch]
   // visibleLayers: [{"michigan": michPoint}]
 }
