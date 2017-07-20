@@ -7,7 +7,6 @@ import {
 } from "react-router-dom"
 import axios from "axios"
 import Dashboard from "./Dashboard"
-import Search from "./Search"
 import About from "./About"
 import Stock from "./Stock"
 import mapboxgl from 'mapbox-gl';
@@ -43,6 +42,7 @@ class App extends Component {
       saveData: {},
       showImage: true,
       question: ""
+
     }
      this.closeButton = this.closeButton.bind(this)
      this.revert = this.revert.bind(this)
@@ -67,8 +67,8 @@ class App extends Component {
 
     var map = new mapboxgl.Map({
         container: 'map', // container id
+        // style: "mapbox://styles/markmoelleruva/cj5b7btrz17vn2rqx1ldub98b",
         style: "mapbox://styles/markmoelleruva/cj5b7btrz17vn2rqx1ldub98b",
-        // style: "mapbox://styles/mapbox/satellite-streets-v10", //stylesheet location
         center: [-98.089702, 39.941827],
         zoom: 3, // starting zoom
         maxBounds: bounds
@@ -79,6 +79,7 @@ class App extends Component {
     })
 
     map.on('load', function () {
+
 
       allStates.layers[0].features.forEach((state, index) => {
         console.log(state.properties.name)
@@ -124,7 +125,7 @@ class App extends Component {
                 }
             });
           }else if(layer.data.geometry.type == "LineString"){
-          console.log(layer.data.properties.id)
+          console.log("invisible line " + layer.data.properties.id)
           var newLayer = map.addLayer({
                 "id": layer.data.properties.id,
                 "type": "line",
@@ -136,7 +137,7 @@ class App extends Component {
                 }
             });
           }else if(layer.data.geometry.type == "Polygon"){
-            console.log(layer.data.properties.id)
+            console.log("invisible polygon " + layer.data.properties.id)
             var newLayer = map.addLayer({
                   "id": layer.data.properties.id,
                   "type": "fill",
@@ -270,7 +271,7 @@ class App extends Component {
             // console.dir("e: " + eval(stateName).data)
 
 
-            var newPathName = `/events/${layer.name}`
+            var newPathName = `/map/${layer.name}`
             var newName = layer.name
             var newSendData = self.state.allData[layer.name]
 
@@ -397,7 +398,7 @@ class App extends Component {
     </div>
 
 {/* {{pathname,state: {name: layer.id}}} */}
-    <Link to={{pathname: self.state.pathName, state: {name: self.state.name}}}>
+    <Link to={{pathname: `${self.state.pathName}`, state: {name: self.state.name}}}>
             <div className="info" onClick={self.closeButton}>{self.state.question}</div>
     </Link>
     {/* {event} */}
@@ -411,7 +412,11 @@ class App extends Component {
     <div className='map-overlay top'>
         <a href="javascript:void(0)" className="closebtn" onClick={this.closeNav}>&times;</a>
         <div className='map-overlay-inner'>
-            <fieldset>
+
+          {/* <div>
+            <Redirect to='/questions' className="question" />Questions
+          </div> */}
+            {/* <fieldset>
                 <label>Select layer</label>
                 <select id='layer' name='layer'>
                     <option value='water'>Water</option>
@@ -421,14 +426,14 @@ class App extends Component {
             <fieldset>
                 <label>Choose a color</label>
                 <div id='swatches'></div>
-            </fieldset>
+            </fieldset> */}
         </div>
       </div>
 
 
          <div className="main">
            {/* render={() => <Dashboard */}
-           <Route path="/events/:name" component={event} />
+           <Route path="/map/:name" component={event} />
 
         </div>
 

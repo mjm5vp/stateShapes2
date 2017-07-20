@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
+import Questions from './Questions';
 import $ from "jquery";
 import './index.css';
 import {
@@ -23,8 +24,26 @@ ReactDOM.render(
 </Router>  */
 
 
+//<App className='map'/>,
+//  document.getElementById('root')
 
-  <App className='map'/>,
-  document.getElementById('root')
+
+
+<Router>
+  <div className ="mapContainer">
+
+
+
+
+    <main className="mapContainer">
+      <Route path="/questions" render={() => <Questions className='map'/>}/> 
+      <Route path="/map" render={() => <App className='map'/>}/>
+    </main>
+  </div>
+</Router>
+,
+document.getElementById('root')
+
+
 
 );

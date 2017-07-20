@@ -6,7 +6,7 @@ var georgiaNorth = {
             "properties": {
               "id": "georgiaNorth",
               "name": "georgiaNorth",
-              "lineWidth": 5,
+              "lineWidth": 2,
               "lineColor": "red",
               "minzoom": 5,
               "question": "Why are Georgia and Tennessee still fighting over this border?"

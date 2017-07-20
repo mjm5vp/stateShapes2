@@ -6,7 +6,7 @@ var masonDixonLine = {
             "properties": {
               "id": "masonDixonLine",
               "name": "MasonDixon",
-              "lineWidth": 8,
+              "lineWidth": 2,
               "lineColor": "blue",
               "minzoom": 5,
               "question": "Why is the Mason-Dixon line important?"

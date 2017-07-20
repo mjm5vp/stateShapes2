@@ -20,13 +20,19 @@ class Dashboard extends Component {
   constructor(props){
     super(props)
     this.state = {
-      name: this.props.location.state.name,
+      name: this.props.match.params.name,
+      // this.props.location.state.name,
       data: [],
       layers: [],
       currentSlide: 0,
       currentData: {},
       closePrev: true,
-      closeNext: false
+      closeNext: false,
+      styles: {
+        mine: "mapbox://styles/markmoelleruva/cj5b7btrz17vn2rqx1ldub98b",
+        light: "mapbox://styles/mapbox/light-v9",
+        basic: "mapbox://styles/mapbox/basic-v9"
+      }
     }
     this.nextSlide = this.nextSlide.bind(this)
     this.flyMap = this.flyMap.bind(this)
@@ -172,7 +178,6 @@ class Dashboard extends Component {
         currentData: this.state.data[slideNum]
       }, () => {
         console.log("next slide")
-
         if(this.state.currentData.hideLayer.hide){
           console.log("hideLayer")
           this.hideLayer()
@@ -205,6 +210,11 @@ class Dashboard extends Component {
     });
   }
 
+  changeMapStyle(style){
+    console.log("change map style")
+    this.props.myMap.setStyle(this.state.styles.basic);
+  }
+
   showLayer(){
     var myLayers = this.state.currentData.showLayer.layers
     myLayers.forEach((layer, index) => {
@@ -220,11 +230,12 @@ class Dashboard extends Component {
   }
 
   closeButton(){
+
     console.log("close")
     var self = this
     // $(".testDash").css("display", "none")
     this.props.myMap.flyTo({
-      zoom: this.props.saveData.zoom || 3,
+      zoom: this.props.saveData.zoom || 4,
       pitch: this.props.saveData.pitch || 0,
       bearing: this.props.saveData.bearing || 0,
       center: this.props.saveData.center ||[-95, 40]
@@ -257,13 +268,13 @@ class Dashboard extends Component {
     // }
 
     let prevButton = this.state.closePrev ?
-    (<div id="prev" className="slideButton" onClick={(e) => this.nextSlide(e,-1)}><Link to="/">Previous</Link></div>)
+    (<div id="prev" className="slideButton" onClick={(e) => this.nextSlide(e,-1)}><Link to="/map" className="linkText">Previous</Link></div>)
     :  (<div id="prev" className="slideButton" onClick={(e) => this.nextSlide(e,-1)}>Previous</div>)
 
     console.log(prevButton)
 
     let nextButton = this.state.closeNext ?
-    (<div id="next" className="slideButton" onClick={(e) => this.nextSlide(e,1)}><Link to="/">Next</Link></div>)
+    (<div id="next" className="slideButton" onClick={(e) => this.nextSlide(e,1)}><Link to="/map" className="linkText">Next</Link></div>)
     : (<div id="next" className="slideButton" onClick={(e) => this.nextSlide(e,1)}>Next</div>)
 
 
@@ -299,7 +310,7 @@ class Dashboard extends Component {
           </div>
 
           <div className="closeButtonContainer">
-            <div onClick={this.closeButton} ><Link to="/" className="xButton">X</Link></div>
+            <div onClick={this.closeButton} ><Link to="/map" className="xButton">X</Link></div>
           </div>
 
         </div>

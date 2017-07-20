@@ -76,6 +76,16 @@
   background-color: white;
 }
 
+.linkText{
+  text-decoration: none;
+}
+
+.linkText:hover{
+  cursor: pointer;
+  color: black;
+  background-color: white;
+}
+
 .prevSlideButton{
   margin: 10px;
 }
