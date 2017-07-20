@@ -373,7 +373,7 @@ class App extends Component {
     // })
     let self = this
     let event = this.state.showImage ? function(){
-      return <Dashboard myMap={self.state.thisMap} data={self.state.sendData} layers={self.state.layers.michigan} saveData={self.state.saveData} revert={self.revert} compOn={self.compOn}/>}
+      return <Dashboard myMap={self.state.thisMap} data={self.state.sendData} layers={self.state.layers} saveData={self.state.saveData} revert={self.revert} compOn={self.compOn}/>}
       : function(){
         return null
       }

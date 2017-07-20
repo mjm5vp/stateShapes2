@@ -25,6 +25,8 @@ class Dashboard extends Component {
       layers: [],
       currentSlide: 0,
       currentData: {},
+      closePrev: true,
+      closeNext: false
     }
     this.nextSlide = this.nextSlide.bind(this)
     this.flyMap = this.flyMap.bind(this)
@@ -42,6 +44,8 @@ class Dashboard extends Component {
 
     console.log("name: " + this.state.name)
 
+
+
     let url = "http://localhost:3001/" + this.state.name + "Slides"
     $.ajax({
       url,
@@ -53,6 +57,8 @@ class Dashboard extends Component {
             currentSlide: 0,
             currentData: response[0],
       })
+
+
   })
 
   $(document).keydown(function(e) {
@@ -79,7 +85,9 @@ class Dashboard extends Component {
 }
 
   componentDidUpdate(){
-    console.log("hello")
+
+
+
     this.updateDescriptionText()
     if(this.state.currentData.hideLayer.hide){
       console.log("hideLayer")
@@ -133,6 +141,30 @@ class Dashboard extends Component {
 
 
     var slideNum = this.state.currentSlide + plusOrMinus
+
+    if(slideNum == 0){
+      this.setState({
+        closePrev: true
+      })
+    }else{
+      this.setState({
+        closePrev: false
+      })
+    }
+
+    console.log("slideNum " + slideNum)
+    console.log("this.state.data.length " + this.state.data.length)
+
+
+    if(slideNum + 1 >= this.state.data.length) {
+      this.setState({
+        closeNext: true
+      })
+    }else{
+      this.setState({
+        closeNext: false
+      })
+    }
 
     if(slideNum < this.state.data.length && slideNum >= 0){
       this.setState({
@@ -214,8 +246,33 @@ class Dashboard extends Component {
 
 
   render() {
-    let self = this
 
+    // let prevButton = close ?
+    // function() {
+    //   return  (<div id="prev" className="slideButton" onClick={(e) => this.nextSlide(e,-1)}><Link to="/">Previous</Link></div>)
+    // }
+    // : function() {
+    //   return  (<div id="prev" className="slideButton" onClick={(e) => this.nextSlide(e,-1)}>Previous</div>)
+    //
+    // }
+
+    let prevButton = this.state.closePrev ?
+    (<div id="prev" className="slideButton" onClick={(e) => this.nextSlide(e,-1)}><Link to="/">Previous</Link></div>)
+    :  (<div id="prev" className="slideButton" onClick={(e) => this.nextSlide(e,-1)}>Previous</div>)
+
+    console.log(prevButton)
+
+    let nextButton = this.state.closeNext ?
+    (<div id="next" className="slideButton" onClick={(e) => this.nextSlide(e,1)}><Link to="/">Next</Link></div>)
+    : (<div id="next" className="slideButton" onClick={(e) => this.nextSlide(e,1)}>Next</div>)
+
+
+
+    // let event = this.state.showImage ? function(){
+    //   return <Dashboard myMap={self.state.thisMap} data={self.state.sendData} layers={self.state.layers.michigan} saveData={self.state.saveData} revert={self.revert} compOn={self.compOn}/>}
+    //   : function(){
+    //     return null
+    //   }
 
 
     return (
@@ -226,7 +283,7 @@ class Dashboard extends Component {
         <div className="subDash">
 
           <div className="buttonContainer">
-            <div id="prev" className="slideButton" onClick={(e) => this.nextSlide(e,-1)}>Previous</div>
+            {prevButton}
           </div>
 
 
@@ -238,7 +295,7 @@ class Dashboard extends Component {
           {/* <div className="closeButton" onClick={this.closeButton()}>x</div> */}
 
           <div className="buttonContainer">
-            <div id="next" className="slideButton" onClick={(e) => this.nextSlide(e,1)}>Next</div>
+            {nextButton}
           </div>
 
           <div className="closeButtonContainer">

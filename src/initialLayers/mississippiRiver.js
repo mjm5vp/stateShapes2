@@ -6,7 +6,7 @@ var mississippiRiver = {
          "id":"mississippiRiver",
          "name":"mississippiRiver",
          "lineWidth": 4,
-         "lineColor": "blue"
+         "lineColor": "#22b4e5"
       },
       "geometry":{
          "type":"LineString",
