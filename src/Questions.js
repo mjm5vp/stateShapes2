@@ -7,6 +7,7 @@ import {
 } from "react-router-dom"
 import $ from "jquery"
 import "./Questions.css"
+import allLayerData from "./initialLayers/allLayerData"
 
 class Questions extends Component {
   constructor(props){
@@ -18,16 +19,34 @@ class Questions extends Component {
 
   componentDidMount(){
 
+
   }
 
     render() {
 
-      let allQuestions =  <div>
-                  <Link to='/map/michigan' className="question" >Why does Michigan have an Upper Penninsula?</Link>
-                </div>
+  //     let stocks = this.props.stocks.map((stock, i) => {
+  // let pathname = `/stocks/${stock.symbol}`
+  // return <li className="stocks-stock" key={i}>
+  //          {stock.name} (<Link to={{pathname,state: {selectedStock: stock}}}>{stock.symbol}</Link>)
+  //        </li>
+// })
+
+      let allQuestions = allLayerData.allVisibleLayers.map((layer, index) => {
+        console.log(layer.data.properties.name)
+        let pathName = `/map/${layer.data.properties.name}`
+        return <div className="questions" key={index}>
+                 <Link to={pathName} className="questions">{layer.data.properties.question}</Link>
+               </div>
+      })
+      console.log(allQuestions)
+
+      // let allQuestions =  <div>
+      //             <Link to='/map/michigan' className="question" >Why does Michigan have an Upper Penninsula?</Link>
+      //           </div>
 
       return (
         <div className="questions">
+
           {allQuestions}
 
         </div>

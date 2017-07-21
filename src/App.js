@@ -10,8 +10,8 @@ import Dashboard from "./Dashboard"
 import About from "./About"
 import Stock from "./Stock"
 import mapboxgl from 'mapbox-gl';
-import michigan from "./michiganData.js"
-import maine from "./maineData.js"
+import michiganUP from "./initialLayers/michiganUP.js"
+import maineNorth from "./initialLayers/maineNorth.js"
 import masonDixonLine from "./initialLayers/masonDixon.js"
 import minnesotaNotch from "./initialLayers/minnesotaNotch.js"
 import georgiaNorth from "./initialLayers/georgiaNorth.js"
@@ -19,7 +19,7 @@ import kentuckyIsland from "./initialLayers/kentuckyIsland.js"
 import mississippiRiver from "./initialLayers/mississippiRiver.js"
 import dc from "./initialLayers/dc.js"
 
-import allStates from "./fullStates/arizona.js"
+import allStates from "./fullStates/fullStates.js"
 
 import $ from "jquery";
 import "./App.css"
@@ -33,15 +33,12 @@ class App extends Component {
       thisMap: null,
       redirect: false,
       allLayers:[],
-      visLayers: michigan.visibleLayers,
-      allData: {
-        michigan: michigan.data,
-        maine: maine.data
-      },
+      visLayers: [],
       sendData: {},
       saveData: {},
       showImage: true,
-      question: ""
+      question: "",
+      allFiles: [maineNorth, michiganUP, masonDixonLine, minnesotaNotch, georgiaNorth, kentuckyIsland, mississippiRiver, dc]
 
     }
      this.closeButton = this.closeButton.bind(this)
@@ -52,9 +49,6 @@ class App extends Component {
   }
   componentDidMount(){
 
-
-
-    var allFiles = [maine, michigan, masonDixonLine, minnesotaNotch, georgiaNorth, kentuckyIsland, mississippiRiver, dc]
 
     console.log(this.props)
     var self = this
@@ -106,7 +100,7 @@ class App extends Component {
         console.log(e.lngLat)
       })
 
-      allFiles.forEach((file, index) => {
+      self.state.allFiles.forEach((file, index) => {
         file.layers.forEach((layer, index)=>{
 
           if(layer.data.geometry.type == "Point"){
@@ -161,7 +155,7 @@ class App extends Component {
 
 
 
-      allFiles.forEach((file, index) =>{
+      self.state.allFiles.forEach((file, index) =>{
 
 
         file.visibleLayers.forEach((visLayer, index)=>{
@@ -263,21 +257,10 @@ class App extends Component {
               pitch: 0
             });
 
-            var stateName = self[layer.name]
-            var a = allFiles.indexOf(stateName);
-            console.log("a: " + a)
-
-            console.log("redirect: " + self.state.redirect)
-            // console.dir("e: " + eval(stateName).data)
-
-
             var newPathName = `/map/${layer.name}`
             var newName = layer.name
-            var newSendData = self.state.allData[layer.name]
-
 
             self.setState({
-              sendData: newSendData,
               pathName: newPathName,
               name: newName,
               redirect: true,
@@ -411,24 +394,28 @@ class App extends Component {
 
     <div className='map-overlay top'>
         <a href="javascript:void(0)" className="closebtn" onClick={this.closeNav}>&times;</a>
-        <div className='map-overlay-inner'>
+        {/* <div className='map-overlay-inner'>
+        </div> */}
 
-          {/* <div>
-            <Redirect to='/questions' className="question" />Questions
-          </div> */}
-            {/* <fieldset>
-                <label>Select layer</label>
-                <select id='layer' name='layer'>
-                    <option value='water'>Water</option>
-                    <option value='building'>Buildings</option>
-                </select>
-            </fieldset>
-            <fieldset>
-                <label>Choose a color</label>
-                <div id='swatches'></div>
-            </fieldset> */}
+
+        <div className="buyBook">Buy on Amazon:
+          <a href="https://www.amazon.com/How-States-Got-Their-Shapes/dp/0061431397" target="_blank">
+            How the States Got Their Shapes
+          </a>
         </div>
-      </div>
+
+        <br/>
+
+        <div className="buyBook">
+          Stein, Mark. How the States Got Their Shapes. New York: Smithsonian /Collins, 2009. Print.
+        </div>
+
+        <br/>
+
+        <div className="buyBook">Website created by:
+          <a href="https://www.linkedin.com/in/mark-moeller-9b721b84/" target="_blank">Mark Moeller</a>
+        </div>
+    </div>
 
 
          <div className="main">

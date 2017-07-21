@@ -8,7 +8,7 @@ var michPoint = {
         "circleRadius": 8,
         "circleColor": "blue",
         "minzoom": 5,
-        "question": "Why is this a part of Michigan?"
+        "question": "Why is the Upper Penninsula a part of Michigan?"
       },
     "geometry": {
         "type": "Point",

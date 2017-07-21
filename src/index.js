@@ -32,11 +32,14 @@ ReactDOM.render(
 <Router>
   <div className ="mapContainer">
 
+    {/* <div className="testLink"><Link to="/questions">Questions</Link></div>
+    <div className="testLink"><Link to="/map">Map</Link></div> */}
+
 
 
 
     <main className="mapContainer">
-      <Route path="/questions" render={() => <Questions className='map'/>}/> 
+      <Route path="/questions" render={() => <Questions className='map'/>}/>
       <Route path="/map" render={() => <App className='map'/>}/>
     </main>
   </div>

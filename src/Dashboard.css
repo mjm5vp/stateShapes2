@@ -7,16 +7,18 @@
   font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
   position: absolute;
   width: 100%;
-  height: 10%;
+  height: 15%;
   margin: 0 auto;
   bottom: 0%;
   /*padding: 10px;*/
   color: white;
-  background-color: black;
-  opacity: .8;
+  background-color: #316063;
+  opacity: .9;
 }
 
 .subDash{
+  height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: row;
 }
@@ -26,6 +28,9 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin: 10px;
+  font-family: 'Bitter', serif;
+  font-size: 15px;
 }
 
 .descriptionText{
@@ -45,8 +50,8 @@
 .buttonContainer{
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  margin: 5px 5px 0px 10px;
+  justify-content: center;
+  margin: 0px 10px 0px 10px;
   text-decoration: none;
   color: white;
 
@@ -64,7 +69,7 @@
 }
 
 .slideButton{
-  margin: 10px;
+  /*margin: 10px;*/
   border: 2px solid white;
   border-radius: 5px;
   padding: 5px;
@@ -83,7 +88,7 @@
 .linkText:hover{
   cursor: pointer;
   color: black;
-  background-color: white;
+  /*background-color: white;*/
 }
 
 .prevSlideButton{
