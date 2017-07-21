@@ -9,7 +9,7 @@ var kentuckyIsland = {
               "fillOpacity": .5,
               "fillColor": "blue",
               "minzoom": 5,
-              "question": "Why does Kentucky have a separate island here?"
+              "question": "Why does Kentucky have a small separate island?"
             },
             "geometry": {
               "type": "Polygon",

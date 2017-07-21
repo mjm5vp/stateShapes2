@@ -9,7 +9,7 @@ var minnesotaNotch = {
               "lineWidth": 5,
               "lineColor": "purple",
               "minzoom": 5,
-              "question": "Why does Minnesota have this notch?"
+              "question": "Why does Minnesota have a notch at the top?"
             },
             "geometry": {
               "type": "LineString",

@@ -7,8 +7,7 @@ import {
 } from "react-router-dom"
 import axios from "axios"
 import Dashboard from "./Dashboard"
-import About from "./About"
-import Stock from "./Stock"
+import Home from "./Home"
 import mapboxgl from 'mapbox-gl';
 import michiganUP from "./initialLayers/michiganUP.js"
 import maineNorth from "./initialLayers/maineNorth.js"
@@ -393,34 +392,46 @@ class App extends Component {
     <span id="openNav"  onClick={this.openNav}>&#9776;</span>
 
     <div className='map-overlay top'>
+      <div className='map-overlay-contents'>
         <a href="javascript:void(0)" className="closebtn" onClick={this.closeNav}>&times;</a>
         {/* <div className='map-overlay-inner'>
         </div> */}
 
+        {/* <div className="homeButton">
+          <Link to='/'>Home</Link>
+        </div> */}
+
 
         <div className="buyBook">Buy on Amazon:
+          <p></p>
           <a href="https://www.amazon.com/How-States-Got-Their-Shapes/dp/0061431397" target="_blank">
             How the States Got Their Shapes
           </a>
         </div>
 
         <br/>
+        <hr/>
 
         <div className="buyBook">
-          Stein, Mark. How the States Got Their Shapes. New York: Smithsonian /Collins, 2009. Print.
+          <p>Source:</p>
+          <p>Stein, Mark. How the States Got Their Shapes. New York: Smithsonian /Collins, 2009. Print.</p>
         </div>
 
         <br/>
+        <hr/>
 
         <div className="buyBook">Website created by:
+          <p></p>
           <a href="https://www.linkedin.com/in/mark-moeller-9b721b84/" target="_blank">Mark Moeller</a>
         </div>
+
+      </div>
     </div>
 
 
          <div className="main">
-           {/* render={() => <Dashboard */}
-           <Route path="/map/:name" component={event} />
+           {/* */}
+           <Route exact path="/map/:name" component={event} />
 
         </div>
 

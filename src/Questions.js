@@ -34,9 +34,12 @@ class Questions extends Component {
       let allQuestions = allLayerData.allVisibleLayers.map((layer, index) => {
         console.log(layer.data.properties.name)
         let pathName = `/map/${layer.data.properties.name}`
-        return <div className="questions" key={index}>
-                 <Link to={pathName} className="questions">{layer.data.properties.question}</Link>
-               </div>
+        return <div className="linkQuestion" key={index}>
+          <Link to={pathName} className="question">
+            {layer.data.properties.question}
+          </Link>
+        </div>
+
       })
       console.log(allQuestions)
 
@@ -45,9 +48,17 @@ class Questions extends Component {
       //           </div>
 
       return (
-        <div className="questions">
+        <div className="questionsContainer">
+          <div className="questionsTitleContainer">
+            <div className="questionsTitle">
+              Questions
+            </div>
+          </div>
 
-          {allQuestions}
+          <div className="questionList">
+            {allQuestions}
+          </div>
+
 
         </div>
       );

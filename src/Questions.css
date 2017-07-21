@@ -1,7 +1,59 @@
-.questions{
-  color: black;
+
+.questionsContainer{
+  width: 100%;
+
+}
+.questionsTitleContainer{
+  width: 100%;
+  text-align: center;
+
+}
+.questionsTitle{
+  margin: 50px;
+  font-size: 100px;
+  font-family: 'Tangerine', cursive;
+  font-weight: 800;
+  text-shadow: -3px 0 black, 0 3px black, 3px 0 black, 0 -3px black;
+  color: white;
+}
+
+.questionList{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+  width: 80%;
+  margin: 0% 10%;
 }
 
 .question{
+  text-decoration: none;
+  top: 50%;
+  color: white;
+
+
+
+}
+
+.linkQuestion{
+  color: white;
+  height: 100px;
+  width: 100%;
   color: black;
+  margin: 50px 50px 50px 50px;
+  font-size: 30px;
+  text-align: center;
+  border: 5px solid black;
+  font-family: 'Bitter', serif;
+  text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+  font-weight: 800;
+  text-decoration: none;
+  vertical-align: middle;
+  background-color: #6e8c91;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+
+
 }

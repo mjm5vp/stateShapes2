@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
+import Home from './Home';
 import Questions from './Questions';
 import $ from "jquery";
 import './index.css';
@@ -11,36 +12,25 @@ import {
   Redirect
 } from "react-router-dom"
 
+
+
 ReactDOM.render(
-// (
-// <Router>
-//   <div>
-//   <Route exact path="/" component={App} />
-//   <Route path="/events/:name" component={event} />
-// </div>
-// </Router>),
-/* <Router>
-  <Route exact path='/' component={App} />
-</Router>  */
-
-
-//<App className='map'/>,
-//  document.getElementById('root')
-
-
 
 <Router>
   <div className ="mapContainer">
 
-    {/* <div className="testLink"><Link to="/questions">Questions</Link></div>
-    <div className="testLink"><Link to="/map">Map</Link></div> */}
+
 
 
 
 
     <main className="mapContainer">
-      <Route path="/questions" render={() => <Questions className='map'/>}/>
-      <Route path="/map" render={() => <App className='map'/>}/>
+      <Route exact path="/" component={Home} />
+      {/* render={() => <Questions className='map'/>}/> */}
+      <Route exact path="/questions" component={Questions} />
+      {/* render={() => <Questions className='map'/>}/> */}
+      <Route path="/map" component={App} />
+      {/* render={() => <App className='map'/>}/> */}
     </main>
   </div>
 </Router>
