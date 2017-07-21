@@ -19,7 +19,6 @@ import dc from "./dc.js"
 var allFiles = [
   michiganUP,
   maineNorth,
-  masonDixonLine,
   minnesotaNotch,
   georgiaNorth,
   kentuckyIsland,

@@ -5,7 +5,7 @@ var georgiaNorth = {
             "type": "Feature",
             "properties": {
               "id": "georgiaNorth",
-              "name": "georgiaNorth",
+              "name": "georgia",
               "lineWidth": 2,
               "lineColor": "red",
               "minzoom": 5,
@@ -58,10 +58,43 @@ var georgiaNorth = {
       }
 }
 
+var georgia35 = {
+
+  "type": "geojson",
+  "data": {
+            "type": "Feature",
+            "properties": {
+              "id": "georgia35",
+              "name": "georgia35",
+              "lineWidth": 2,
+              "lineColor": "blue",
+              "minzoom": 5,
+              "question": "Why is the Mason-Dixon line important?"
+            },
+            "geometry": {
+              "type": "LineString",
+              "coordinates": [
+
+
+                [-85.60520125045012,
+                  35              ],
+                [
+                  -84.60520125045012,
+                  35
+                ]
+              ]
+
+            }
+
+
+      }
+}
+
+
 module.exports = {
-  name: "georgiaNorth",
+  name: "georgia",
   data: null,
-  layers: [],
+  layers: [georgia35],
   visibleLayers: [georgiaNorth]
   // visibleLayers: [{"michigan": michPoint}]
 }

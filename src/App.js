@@ -37,7 +37,7 @@ class App extends Component {
       saveData: {},
       showImage: true,
       question: "",
-      allFiles: [maineNorth, michiganUP, masonDixonLine, minnesotaNotch, georgiaNorth, kentuckyIsland, mississippiRiver, dc]
+      allFiles: [maineNorth, michiganUP, minnesotaNotch, georgiaNorth, kentuckyIsland, mississippiRiver, dc]
 
     }
      this.closeButton = this.closeButton.bind(this)
