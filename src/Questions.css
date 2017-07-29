@@ -57,3 +57,10 @@
 
 
 }
+
+@media only screen and (max-width: 500px) {
+    .linkQuestion{
+      font-size: 15px;
+    }
+
+}

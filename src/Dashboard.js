@@ -52,7 +52,7 @@ class Dashboard extends Component {
 
 
 
-    let url = "http://localhost:3001/" + this.state.name + "Slides"
+    let url = "http://node-express-env.fbszaadhui.us-east-1.elasticbeanstalk.com/" + this.state.name + "Slides"
     $.ajax({
       url,
       method: "GET",

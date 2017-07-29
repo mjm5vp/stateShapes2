@@ -102,3 +102,9 @@ margin: 10px;
 a{
   color: white;
 }
+
+@media only screen and (max-width: 500px) {
+    .descriptionText{
+      font-size: 8px;
+    }
+}
