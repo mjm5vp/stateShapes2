@@ -7,7 +7,7 @@ var mainePoint = {
         "name": "maine",
         "circleRadius": 8,
         "circleColor": "blue",
-        "minzoom": 5,
+        "minzoom": null,
         "question": "Why is Maine's border so strange?"
       },
     "geometry": {

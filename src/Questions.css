@@ -1,7 +1,7 @@
 
 .questionsContainer{
   width: 80%;
-  margin: 0 auto;
+  margin: 10%;
 }
 .questionsTitleContainer{
   width: 100%;
@@ -9,7 +9,6 @@
 
 }
 .questionsTitle{
-  /*margin: 50px;*/
   font-size: 100px;
   font-family: 'Tangerine', cursive;
   font-weight: 800;
@@ -21,24 +20,21 @@
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
+  justify-content: flex-start;
   align-items: center;
   width: 100%;
-  margin: 0%;
+  margin: 0 auto;
 }
 
-.question{
-  width: 100%;
-  text-decoration: none;
-  top: 50%;
-  color: white;
-}
+
 
 .linkQuestion{
+  box-sizing: border-box;
   color: white;
   height: 100px;
   width: 100%;
   color: black;
-  margin: 50px 0px;
+  margin: 50px auto;
   font-size: 30px;
   text-align: center;
   border: 5px solid black;
@@ -51,6 +47,14 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+.question{
+  width: 100%;
+  text-decoration: none;
+  top: 50%;
+  color: white;
+  margin: 5% auto;
 }
 
 @media only screen and (max-width: 500px) {

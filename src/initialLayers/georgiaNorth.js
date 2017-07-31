@@ -7,8 +7,8 @@ var georgiaNorth = {
               "id": "georgiaNorth",
               "name": "georgia",
               "lineWidth": 2,
-              "lineColor": "red",
-              "minzoom": 5,
+              "lineColor": "#B50027",
+              "minzoom": null,
               "question": "Why are Georgia and Tennessee still fighting over Georgia's Northern border?"
             },
             "geometry": {

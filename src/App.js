@@ -383,6 +383,8 @@ class App extends Component {
     <Link to={{pathname: `${self.state.pathName}`, state: {name: self.state.name}}}>
             <div className="info" onClick={self.closeButton}>{self.state.question}</div>
     </Link>
+
+
     {/* {event} */}
 
 
@@ -394,20 +396,8 @@ class App extends Component {
     <div className='map-overlay top'>
       <div className='map-overlay-contents'>
         <a href="javascript:void(0)" className="closebtn" onClick={this.closeNav}>&times;</a>
-        {/* <div className='map-overlay-inner'>
-        </div> */}
 
-        {/* <div className="homeButton">
-          <Link to='/'>Home</Link>
-        </div> */}
-
-
-        <div className="buyBook">Buy on Amazon:
-          <p></p>
-          <a href="https://www.amazon.com/How-States-Got-Their-Shapes/dp/0061431397" target="_blank">
-            How the States Got Their Shapes
-          </a>
-        </div>
+        <a href="http://www.howthestatesgottheirshapes.com">Home</a>
 
         <br/>
         <hr/>
@@ -415,6 +405,16 @@ class App extends Component {
         <div className="buyBook">
           <p>Source:</p>
           <p>Stein, Mark. How the States Got Their Shapes. New York: Smithsonian /Collins, 2009. Print.</p>
+        </div>
+
+        <br/>
+        <hr/>
+
+        <div className="buyBook">Buy on Amazon:
+          <p></p>
+          <a href="https://www.amazon.com/How-States-Got-Their-Shapes/dp/0061431397" target="_blank">
+            How the States Got Their Shapes
+          </a>
         </div>
 
         <br/>

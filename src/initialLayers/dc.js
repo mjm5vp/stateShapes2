@@ -7,7 +7,7 @@ var dcPoint = {
         "name": "dc",
         "circleRadius": 8,
         "circleColor": "blue",
-        "minzoom": 5,
+        "minzoom": null,
         "question": "Why is DC shaped like half a diamond?"
       },
     "geometry": {

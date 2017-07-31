@@ -18,12 +18,6 @@ ReactDOM.render(
 
 <Router>
   <div className ="mapContainer">
-
-
-
-
-
-
     <main className="mapContainer">
       <Route exact path="/" component={Home} />
       {/* render={() => <Questions className='map'/>}/> */}

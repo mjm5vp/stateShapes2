@@ -7,8 +7,8 @@ var kentuckyIsland = {
               "id": "kentuckyIsland",
               "name": "kentucky",
               "fillOpacity": .5,
-              "fillColor": "blue",
-              "minzoom": 5,
+              "fillColor": "#0033A0",
+              "minzoom": null,
               "question": "Why does Kentucky have a small separate island?"
             },
             "geometry": {
