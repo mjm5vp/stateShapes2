@@ -23,16 +23,13 @@
   flex-wrap: wrap;
   align-items: center;
   width: 80%;
-  margin: 0% 10%;
+  margin: 0% 10% 0% 10%;
 }
 
 .question{
   text-decoration: none;
   top: 50%;
   color: white;
-
-
-
 }
 
 .linkQuestion{
@@ -53,14 +50,15 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-
-
-
 }
 
 @media only screen and (max-width: 500px) {
     .linkQuestion{
       font-size: 15px;
+    }
+
+    .questionList{
+      margin: 0 auto;
     }
 
 }
