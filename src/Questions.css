@@ -1,7 +1,7 @@
 
 .questionsContainer{
-  width: 100%;
-
+  width: 80%;
+  margin: 0 auto;
 }
 .questionsTitleContainer{
   width: 100%;
@@ -9,7 +9,7 @@
 
 }
 .questionsTitle{
-  margin: 50px;
+  /*margin: 50px;*/
   font-size: 100px;
   font-family: 'Tangerine', cursive;
   font-weight: 800;
@@ -22,11 +22,12 @@
   flex-direction: column;
   flex-wrap: wrap;
   align-items: center;
-  width: 80%;
-  margin: 0% 10% 0% 10%;
+  width: 100%;
+  margin: 0%;
 }
 
 .question{
+  width: 100%;
   text-decoration: none;
   top: 50%;
   color: white;
@@ -37,7 +38,7 @@
   height: 100px;
   width: 100%;
   color: black;
-  margin: 50px 50px 50px 50px;
+  margin: 50px 0px;
   font-size: 30px;
   text-align: center;
   border: 5px solid black;
