@@ -46,10 +46,10 @@ class App extends Component {
      this.testClick = this.testClick.bind(this)
 
   }
+
+
   componentDidMount(){
 
-
-    console.log(this.props)
     var self = this
     mapboxgl.accessToken = 'pk.eyJ1IjoibWFya21vZWxsZXJ1dmEiLCJhIjoiY2o0dXFsa2F6MG44eTJ4cGwxZ2hrOHVkbCJ9.oXW5yLvO_PXRxDBCwA5DRQ';
     var allLayers = []
@@ -73,168 +73,32 @@ class App extends Component {
 
     map.on('load', function () {
 
-
-      allStates.layers[0].features.forEach((state, index) => {
-        console.log(state.properties.name)
-        var newLayer = map.addLayer({
-              "id": ("full" + state.properties.name),
-              "type": "fill",
-              "source": {
-                type: "geojson",
-                data: state},
-              "minzoom": state.properties.minzoom || 1,
-              "paint": {
-                  "fill-opacity": .5,
-                  "fill-color": "#B42222"
-              },
-              "filter": ["==", "$type", "Polygon"],
-          });
-          map.setLayoutProperty(("full" + state.properties.name), 'visibility', 'none');
-          allLayers.push({id: ("full" + state.properties.name)})
-
-      })
-
       map.on('click', function(e){
         console.log(map.getZoom())
         console.log(e.lngLat)
       })
 
-      self.state.allFiles.forEach((file, index) => {
-        file.layers.forEach((layer, index)=>{
-
-          if(layer.data.geometry.type == "Point"){
-          console.log("invisible point " + layer.data.properties.id)
-          var newLayer = map.addLayer({
-                "id": layer.data.properties.id,
-                "type": "symbol",
-                "description": "Hello World",
-                "source": layer,
-                "paint": {
-                    // "color": "#888888",
-                    // "opacity": 0.4
-                },
-                "layout": {
-                    "icon-image": "embassy-15"
-                }
-            });
-          }else if(layer.data.geometry.type == "LineString"){
-          console.log("invisible line " + layer.data.properties.id)
-          var newLayer = map.addLayer({
-                "id": layer.data.properties.id,
-                "type": "line",
-                "description": "Hello World",
-                "source": layer,
-                "paint": {
-                    "line-color": layer.data.properties.lineColor || "#888888",
-                    "line-width": layer.data.properties.lineWidth || 5
-                }
-            });
-          }else if(layer.data.geometry.type == "Polygon"){
-            console.log("invisible polygon " + layer.data.properties.id)
-            var newLayer = map.addLayer({
-                  "id": layer.data.properties.id,
-                  "type": "fill",
-                  "description": "Hello World",
-                  "source": layer,
-                  "paint": {
-                      "fill-color": layer.data.properties.fillColor || "#888888",
-                      "fill-opacity": layer.data.properties.fillOpacity || .4
-                  }
-              });
-            }
-            console.log(newLayer)
-            map.setLayoutProperty(layer.data.properties.id, 'visibility', 'none');
-            allLayers.push({id: layer.data.properties.id})
-      })
-      })
-
-
       var allVisLayers = []
 
-
-
-
-      self.state.allFiles.forEach((file, index) =>{
-
-
-        file.visibleLayers.forEach((visLayer, index)=>{
-
-
-
-          if(visLayer.data.geometry.type == "Point"){
-            console.log("point " + visLayer.data.properties.id)
-            var newLayer = map.addLayer({
-                  "id": visLayer.data.properties.id,
-                  "type": "symbol",
-                  "source": visLayer,
-                  "minzoom": visLayer.data.properties.minzoom || 1,
-                  "paint": {
-
-                      // "circle-radius": visLayer.data.properties.circleRadius || 10,
-                      // "circle-color": visLayer.data.properties.circleColor|| "#B42222"
-                  },
-                  "layout": {
-                      "icon-image": "embassy-15"
-                  }
-                  // "filter": ["==", "$type", "Point"],
-              });
-          }else if(visLayer.data.geometry.type == "Marker"){
-            console.log("marker " + visLayer.data.properties.id)
-            var newLayer = map.addLayer({
-                  "id": visLayer.data.properties.id,
-                  "type": "marker",
-                  "source": visLayer,
-                  "minzoom": visLayer.data.properties.minzoom || 1,
-                  "paint": {
-                      "circle-radius": visLayer.data.properties.circleRadius || 10,
-                      "circle-color": visLayer.data.properties.circleColor|| "#B42222"
-                  },
-                  "filter": ["==", "$type", "Marker"],
-              });
-          }else if (visLayer.data.geometry.type == "LineString") {
-            console.log("line " + visLayer.data.properties.id)
-            var newLayer = map.addLayer({
-                  "id": visLayer.data.properties.id,
-                  "type": "line",
-                  "source": visLayer,
-                  "minzoom": visLayer.data.properties.minzoom || 1,
-                  "paint": {
-                      "line-width": visLayer.data.properties.lineWidth || 10,
-                      "line-color": visLayer.data.properties.lineColor|| "#B42222"
-                  },
-                  "filter": ["==", "$type", "LineString"],
-              });
-            }else if (visLayer.data.geometry.type == "Polygon") {
-              console.log("polygon " + visLayer.data.properties.id)
-              var newLayer = map.addLayer({
-                    "id": visLayer.data.properties.id,
-                    "type": "fill",
-                    "source": visLayer,
-                    "minzoom": visLayer.data.properties.minzoom || 1,
-                    "paint": {
-                        "fill-opacity": visLayer.data.properties.fillOpacity || 1,
-                        "fill-color": visLayer.data.properties.fillColor|| "#B42222"
-                    },
-                    "filter": ["==", "$type", "Polygon"],
-                });
-            }
-
-
-
-
-          allVisLayers.push({name: visLayer.data.properties.name, id: visLayer.data.properties.id, question: visLayer.data.properties.question})
-})
-
-// console.log(allStates.visibleLayers[0].features[0])
-
-
-})
-
-
+      self.addAllStates(map)
+      self.addInvisibleLayers(map)
+      self.addVisibleLayers(map, allVisLayers)
 
 
 
       allVisLayers.forEach((layer, index) => {
+
+        map.on('mouseenter', layer.id, function(e){
+          console.log("enter")
+          $("body").css("cursor", "pointer")
+        })
+
+        map.on('mouseout', layer.id, function(e){
+          console.log("out")
+          $("body").css("cursor", "default")
+        })
+
+
         map.on('click', layer.id, function (e) {
 
           map.on("click", self.testClick)
@@ -267,7 +131,7 @@ class App extends Component {
               question: layer.question
             })
 
-            $(".info").css("display", "unset")
+            $(".info").css("top", "50px")
 
             console.log("redirect: " + self.state.redirect)
         });
@@ -286,13 +150,165 @@ class App extends Component {
   })
   }
 
+  addAllStates(){
+    allStates.layers[0].features.forEach((layer, index) => {
+      var newLayer = this.state.thisMap.addLayer({
+            "id": ("full" + layer.properties.name),
+            "type": "fill",
+            "source": {
+              type: "geojson",
+              data: layer},
+            "minzoom": layer.properties.minzoom || 1,
+            "paint": {
+                "fill-opacity": .5,
+                "fill-color": "#B42222"
+            },
+            "filter": ["==", "$type", "Polygon"],
+        });
+        this.state.thisMap.setLayoutProperty(("full" + layer.properties.name), 'visibility', 'none');
+        this.state.allLayers.push({id: ("full" + layer.properties.name)})
+
+    })
+  }
+
+  addInvisibleLayers(map){
+    this.state.allFiles.forEach((file, index) => {
+      file.layers.forEach((layer, index)=>{
+
+        if(layer.data.geometry.type == "Point"){
+        console.log("invisible point " + layer.data.properties.id)
+        var newLayer = map.addLayer({
+              "id": layer.data.properties.id,
+              "type": "symbol",
+              "description": "Hello World",
+              "source": layer,
+              "paint": {
+                  // "color": "blue"
+                  // "opacity": 0.4
+              },
+              "layout": {
+                  "icon-image": "embassy-15",
+                  // "icon-color": "blue"
+              }
+          });
+        }
+
+        else if(layer.data.geometry.type == "LineString"){
+        console.log("invisible line " + layer.data.properties.id)
+        var newLayer = map.addLayer({
+              "id": layer.data.properties.id,
+              "type": "line",
+              "description": "Hello World",
+              "source": layer,
+              "paint": {
+                  "line-color": layer.data.properties.lineColor || "#888888",
+                  "line-width": layer.data.properties.lineWidth || 5
+              }
+          });
+        }
+
+        else if(layer.data.geometry.type == "Polygon"){
+          console.log("invisible polygon " + layer.data.properties.id)
+          var newLayer = map.addLayer({
+                "id": layer.data.properties.id,
+                "type": "fill",
+                "description": "Hello World",
+                "source": layer,
+                "paint": {
+                    "fill-color": layer.data.properties.fillColor || "#888888",
+                    "fill-opacity": layer.data.properties.fillOpacity || .4
+                }
+            });
+          }
+          console.log(newLayer)
+          map.setLayoutProperty(layer.data.properties.id, 'visibility', 'none');
+          this.state.allLayers.push({id: layer.data.properties.id})
+      })
+    })
+  }
+
+  addVisibleLayers(map, allVisLayers){
+    this.state.allFiles.forEach((file, index) =>{
+
+
+      file.visibleLayers.forEach((visLayer, index)=>{
+
+
+
+        if(visLayer.data.geometry.type == "Point"){
+          console.log("point " + visLayer.data.properties.id)
+          var newLayer = map.addLayer({
+                "id": visLayer.data.properties.id,
+                "type": "symbol",
+                "source": visLayer,
+                "minzoom": visLayer.data.properties.minzoom || 1,
+                "paint": {
+
+                    // "circle-radius": visLayer.data.properties.circleRadius || 10,
+                    // "circle-color": visLayer.data.properties.circleColor|| "#B42222"
+                },
+                "layout": {
+                    "icon-image": "embassy-15"
+                }
+                // "filter": ["==", "$type", "Point"],
+            });
+        }else if(visLayer.data.geometry.type == "Marker"){
+          console.log("marker " + visLayer.data.properties.id)
+          var newLayer = map.addLayer({
+                "id": visLayer.data.properties.id,
+                "type": "marker",
+                "source": visLayer,
+                "minzoom": visLayer.data.properties.minzoom || 1,
+                "paint": {
+                    "circle-radius": visLayer.data.properties.circleRadius || 10,
+                    "circle-color": visLayer.data.properties.circleColor|| "#B42222"
+                },
+                "filter": ["==", "$type", "Marker"],
+            });
+        }else if (visLayer.data.geometry.type == "LineString") {
+          console.log("line " + visLayer.data.properties.id)
+          var newLayer = map.addLayer({
+                "id": visLayer.data.properties.id,
+                "type": "line",
+                "source": visLayer,
+                "minzoom": visLayer.data.properties.minzoom || 1,
+                "paint": {
+                    "line-width": visLayer.data.properties.lineWidth || 10,
+                    "line-color": visLayer.data.properties.lineColor|| "#B42222"
+                },
+                "filter": ["==", "$type", "LineString"],
+            });
+          }else if (visLayer.data.geometry.type == "Polygon") {
+            console.log("polygon " + visLayer.data.properties.id)
+            var newLayer = map.addLayer({
+                  "id": visLayer.data.properties.id,
+                  "type": "fill",
+                  "source": visLayer,
+                  "minzoom": visLayer.data.properties.minzoom || 1,
+                  "paint": {
+                      "fill-opacity": visLayer.data.properties.fillOpacity || 1,
+                      "fill-color": visLayer.data.properties.fillColor|| "#B42222"
+                  },
+                  "filter": ["==", "$type", "Polygon"],
+              });
+          }
+        allVisLayers.push({name: visLayer.data.properties.name, id: visLayer.data.properties.id, question: visLayer.data.properties.question})
+        })
+
+
+
+        })
+  }
+
+
+
 
   testClick(){
     var self = this
-    $(".info").css("display", "none")
+    $(".info").css("top", "-60px")
     this.state.visLayers.forEach((layer, index) => {
       self.state.thisMap.on('click', layer.id, function (e) {
-        $(".info").css("display", "unset")
+        $(".info").css("top", "50px")
       })
     })
   }
@@ -311,14 +327,14 @@ class App extends Component {
     this.setState({
       showImage: true
     })
-    $(".info").css("display", "none")
+    $(".info").css("top", "-60px")
   }
 
   revert(){
     this.setState({
       showImage: false
     })
-    this.state.layers.forEach((layer, index) => {
+    this.state.allLayers.forEach((layer, index) => {
       console.log(layer.id)
       this.state.thisMap.setLayoutProperty(layer.id, 'visibility', 'none');
 
@@ -332,21 +348,6 @@ class App extends Component {
 
 
   render() {
-
-    // let stocks = this.props.stocks.map((stock, i) => {
-    //   let pathname = `/stocks/${stock.symbol}`
-    //   return <li className="stocks-stock" key={i}>
-    //            {stock.name} (<Link to={{
-    //                             pathname,
-    //                             state: {selectedStock: stock}
-    //                           }}>
-    //                           {stock.symbol}
-    //                         </Link>)
-    //          </li>
-    // })
-// console.log(this.layers)
-    // console.log(this.visLayers)
-    //
 
     // var infoButton = this.visLayers.map((layer,i) =>{
     //   let pathname = '/events/michigan'
@@ -369,99 +370,63 @@ class App extends Component {
       //   </Link>)
 
 
-
-
-
-
     return (
-<Router>
-  <div id='full'>
-    <div id='map'>
-    </div>
+      <Router>
+        <div id='full'>
+          <div id='map'>
+          </div>
 
-{/* {{pathname,state: {name: layer.id}}} */}
-    <Link to={{pathname: `${self.state.pathName}`, state: {name: self.state.name}}}>
-            <div className="info" onClick={self.closeButton}>{self.state.question}</div>
-    </Link>
-
-
-    {/* {event} */}
+          <Link to={{pathname: `${self.state.pathName}`, state: {name: self.state.name}}}>
+                  <div className="info" onClick={self.closeButton}>{self.state.question}</div>
+          </Link>
 
 
+          <span id="openNav"  onClick={this.openNav}>&#9776;</span>
 
-    {/* {infoButton} */}
+          <div className='map-overlay top'>
+            <div className='map-overlay-contents'>
+              <a href="javascript:void(0)" className="closebtn" onClick={this.closeNav}>&times;</a>
 
-    <span id="openNav"  onClick={this.openNav}>&#9776;</span>
+              <a href="http://www.howthestatesgottheirshapes.com">Home</a>
 
-    <div className='map-overlay top'>
-      <div className='map-overlay-contents'>
-        <a href="javascript:void(0)" className="closebtn" onClick={this.closeNav}>&times;</a>
+              <br/>
+              <hr/>
 
-        <a href="http://www.howthestatesgottheirshapes.com">Home</a>
+              <div className="buyBook">
+                <p>Source:</p>
+                <p>Stein, Mark. How the States Got Their Shapes. New York: Smithsonian /Collins, 2009. Print.</p>
+              </div>
 
-        <br/>
-        <hr/>
+              <br/>
+              <hr/>
 
-        <div className="buyBook">
-          <p>Source:</p>
-          <p>Stein, Mark. How the States Got Their Shapes. New York: Smithsonian /Collins, 2009. Print.</p>
-        </div>
+              <div className="buyBook">Buy on Amazon:
+                <p></p>
+                <a href="https://www.amazon.com/How-States-Got-Their-Shapes/dp/0061431397" target="_blank">
+                  How the States Got Their Shapes
+                </a>
+              </div>
 
-        <br/>
-        <hr/>
+              <br/>
+              <hr/>
 
-        <div className="buyBook">Buy on Amazon:
-          <p></p>
-          <a href="https://www.amazon.com/How-States-Got-Their-Shapes/dp/0061431397" target="_blank">
-            How the States Got Their Shapes
-          </a>
-        </div>
+              <div className="buyBook">Website created by:
+                <p></p>
+                <a href="https://www.linkedin.com/in/mark-moeller-9b721b84/" target="_blank">Mark Moeller</a>
+              </div>
 
-        <br/>
-        <hr/>
-
-        <div className="buyBook">Website created by:
-          <p></p>
-          <a href="https://www.linkedin.com/in/mark-moeller-9b721b84/" target="_blank">Mark Moeller</a>
-        </div>
-
-      </div>
-    </div>
+            </div>
+          </div>
 
 
-         <div className="main">
-           {/* */}
-           <Route exact path="/map/:name" component={event} />
+               <div className="main">
+                 <Route exact path="/map/:name" component={event} />
+              </div>
 
-        </div>
+              </div>
 
-        </div>
+      </Router>
 
-</Router>
-
-
-      // <Router>
-      //   <div>
-      //     <div className="nav">
-      //       <div className="nav-item"><span className="nav-logo">iStocks</span></div>
-      //       <div className="nav-item"><Link to="/">Home</Link></div>
-      //       <div className="nav-item"><Link to="/search">Search</Link></div>
-      //       <div className="nav-item"><Link to="/about">About</Link></div>
-      //     </div>
-      //
-      //     <div className="main">
-      //       <Route exact path="/" render={() => <Dashboard stocks={this.state.stocks} />} />
-      //       <Route path="/search" render={() => {
-      //         if(this.state.hasTracked){
-      //           return <Redirect to="/" />
-      //         }
-      //         return <Search handleTrackedState={this.handleTrackedState} />
-      //       }} />
-      //     <Route path="/about" component={About} />
-      //     <Route path="/stocks/:symbol" component={Stock} />
-      //     </div>
-      //   </div>
-      // </Router>
     );
   }
 }
