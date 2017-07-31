@@ -107,39 +107,6 @@ class Dashboard extends Component {
     this.flyMap()
   }
 
-//   .then(() => {
-//     console.log("hello")
-//     self.flyMap()
-//     console.log(response)
-//   }
-//
-// )
-
-    // fetch('/users')
-    //   .then(res => res.json())
-    //   .then(data => {
-    //     console.log(data)
-    //     users = data
-    //   });
-    //
-    //   self.setState({
-    //     data: users,
-    //     currentData: users[0],
-    //     currentSlide: 0
-    //   }), () => {
-    //       console.log("currentData description: " + this.state.currentData.description)
-    //       self.flyMap()
-    //   }
-
-
-    // this.setState({
-    //   currentData: this.state.data[0]
-    // }, () => {
-    //   console.log("currentData description: " + this.state.currentData.description)
-    //   this.flyMap()
-    // });
-  // }
-
   nextSlide(e, plusOrMinus){
     console.log("data: "  + this.state.data.length)
     console.log("slideNum: "  + this.state.currentSlide)
@@ -258,15 +225,6 @@ class Dashboard extends Component {
 
   render() {
 
-    // let prevButton = close ?
-    // function() {
-    //   return  (<div id="prev" className="slideButton" onClick={(e) => this.nextSlide(e,-1)}><Link to="/">Previous</Link></div>)
-    // }
-    // : function() {
-    //   return  (<div id="prev" className="slideButton" onClick={(e) => this.nextSlide(e,-1)}>Previous</div>)
-    //
-    // }
-
     let prevButton = this.state.closePrev ?
     (<div id="prev" className="slideButton" onClick={(e) => this.nextSlide(e,-1)}><Link to="/map" className="linkText">Previous</Link></div>)
     :  (<div id="prev" className="slideButton" onClick={(e) => this.nextSlide(e,-1)}>Previous</div>)
@@ -277,13 +235,6 @@ class Dashboard extends Component {
     (<div id="next" className="slideButton" onClick={(e) => this.nextSlide(e,1)}><Link to="/map" className="linkText">Next</Link></div>)
     : (<div id="next" className="slideButton" onClick={(e) => this.nextSlide(e,1)}>Next</div>)
 
-
-
-    // let event = this.state.showImage ? function(){
-    //   return <Dashboard myMap={self.state.thisMap} data={self.state.sendData} layers={self.state.layers.michigan} saveData={self.state.saveData} revert={self.revert} compOn={self.compOn}/>}
-    //   : function(){
-    //     return null
-    //   }
 
 
     return (

@@ -157,7 +157,11 @@ class App extends Component {
             "type": "fill",
             "source": {
               type: "geojson",
-              data: layer},
+              data: layer,
+              cluster: true,
+              clusterMaxZoom: 14, // Max zoom to cluster points on
+              clusterRadius: 50 // Radius of each cluster when clustering points (defaults to 50)
+            },
             "minzoom": layer.properties.minzoom || 1,
             "paint": {
                 "fill-opacity": .5,
