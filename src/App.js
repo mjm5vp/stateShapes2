@@ -152,15 +152,13 @@ class App extends Component {
 
   addAllStates(){
     allStates.layers[0].features.forEach((layer, index) => {
+      console.log("state layer: " + layer.properties.name)
       var newLayer = this.state.thisMap.addLayer({
             "id": ("full" + layer.properties.name),
             "type": "fill",
             "source": {
               type: "geojson",
               data: layer,
-              cluster: true,
-              clusterMaxZoom: 14, // Max zoom to cluster points on
-              clusterRadius: 50 // Radius of each cluster when clustering points (defaults to 50)
             },
             "minzoom": layer.properties.minzoom || 1,
             "paint": {
