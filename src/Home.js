@@ -17,6 +17,7 @@ class Home extends Component {
     }
   }
 
+
   componentDidMount(){
 
     let url = "https://state-shape-back-end.herokuapp.com/michigan/michiganSlides"
@@ -27,10 +28,6 @@ class Home extends Component {
     }).then((response) => {
       console.log("ajax load")
       })
-
-
-  })
-
 
   }
 
