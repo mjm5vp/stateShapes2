@@ -20,7 +20,7 @@ class Home extends Component {
 
   componentDidMount(){
 
-    let url = "https://state-shape-back-end.herokuapp.com/michigan/michiganSlides"
+    let url = "https://state-shape-back-end.herokuapp.com/michiganSlides"
     $.ajax({
       url: url,
       type: "get",
