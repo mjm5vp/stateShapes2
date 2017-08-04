@@ -19,6 +19,18 @@ class Home extends Component {
 
   componentDidMount(){
 
+    let url = "https://state-shape-back-end.herokuapp.com/michigan/michiganSlides"
+    $.ajax({
+      url,
+      method: "GET",
+      dataType: "json"
+    }).then((response) => {
+      console.log("ajax load")
+      })
+
+
+  })
+
 
   }
 
