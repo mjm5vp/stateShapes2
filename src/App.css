@@ -121,7 +121,7 @@ button:hover{
   font-family: 'Lemonada', cursive;
   position: absolute;
   width: 70%;
-  height: 50px;
+  min-height: 50px;
   border-radius: 10px;
   border: 2px solid white;
   margin: 0 auto;
