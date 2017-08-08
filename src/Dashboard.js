@@ -226,14 +226,14 @@ class Dashboard extends Component {
   render() {
 
     let prevButton = this.state.closePrev ?
-    (<div id="prev" className="slideButton" onClick={(e) => this.nextSlide(e,-1)}><Link to="/map" className="linkText">Previous</Link></div>)
-    :  (<div id="prev" className="slideButton" onClick={(e) => this.nextSlide(e,-1)}>Previous</div>)
+    (<div id="prev" className="slideButton" onClick={(e) => this.nextSlide(e,-1)}><Link to="/map" className="linkText">&#8249;</Link></div>)
+    :  (<div id="prev" className="slideButton" onClick={(e) => this.nextSlide(e,-1)}><span className="linkText">&#8249;</span></div>)
 
     console.log(prevButton)
 
     let nextButton = this.state.closeNext ?
-    (<div id="next" className="slideButton" onClick={(e) => this.nextSlide(e,1)}><Link to="/map" className="linkText">Next</Link></div>)
-    : (<div id="next" className="slideButton" onClick={(e) => this.nextSlide(e,1)}>Next</div>)
+    (<div id="next" className="slideButton" onClick={(e) => this.nextSlide(e,1)}><Link to="/map" className="linkText">&#8250;</Link></div>)
+    : (<div id="next" className="slideButton" onClick={(e) => this.nextSlide(e,1)}><span className="linkText">&#8250;</span></div>)
 
 
 
@@ -256,7 +256,7 @@ class Dashboard extends Component {
           {/* <p className="descriptionField">{this.state.currentData.description}</p> */}
           {/* <div className="closeButton" onClick={this.closeButton()}>x</div> */}
 
-          <div className="buttonContainer">
+          <div className="rightButtonContainer">
             {nextButton}
           </div>
 
