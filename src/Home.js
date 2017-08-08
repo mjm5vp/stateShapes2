@@ -25,10 +25,6 @@ class Home extends Component {
       url: url,
       type: "get",
       dataType: "json"
-      // $.ajax takes an object as an argument with at least three key-value pairs...
-      // (1) The URL endpoint for the JSON object.
-      // (2) Type of HTTP request.
-      // (3) Datatype. Usually JSON.
     }).done(() => {
       console.log("Ajax request success!")
     }).fail(() => {
